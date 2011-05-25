@@ -1,0 +1,64 @@
+/*---FIRST!!!---*/
+body {
+	background: #FFF url('/images/bg.jpg') no-repeat right top;
+	padding: 0;
+	margin: 0;
+}
+
+
+/*---Home tab accordion---*/
+#blackmamba{margin-top: 20px;}
+#blackmamba li .ui-icon-close { 
+	float: left; margin: 0.6em 0.2em 0 0; 
+	cursor: pointer; }
+#blackmamba li .ui-icon-home { 
+	float: left; margin: 0.2em 0.2em 0 0; 
+	cursor: pointer; }
+#blackmamba li .ui-icon-zoomin { 
+	float: left; margin: 0.2em 0.2em 0 0; 
+	cursor: pointer; }
+
+/*---Links and Tab-adding buttons and controls---*/
+#add_tab { cursor: pointer; }
+a { cursor: pointer; text-decoration: underline; }
+
+
+/*---Forms---*/
+input {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 2px solid #339;
+	outline: none;
+}
+
+/*---Menu Styling - More in superfish.css---*/
+.down-a{ float: right; position: absolute; bottom: 12px; right: 0; }
+.right-a{float: right; position: absolute; bottom: 12px; right: 10px;}
+
+#topnav_container{ 
+}
+#topnav_container .topnav {
+	list-style: none;
+	padding: 0 20px;
+	margin: 0;
+	float: left;
+	font-size: 1.2em;
+
+}
+#topnav_container .topnav li {
+	float: left;
+	margin: 0;
+	padding: 0 15px 0 0;
+	position: relative; /*--Declare X and Y axis base for sub navigation--*/
+}
+#topnav_container .topnav li a{
+	padding: 10px 5px;
+	color: #000;
+	display: block;
+	text-decoration: none;
+	float: left;
+}
+#topnav_container .topnav li a:hover{
+	color: #FFF;
+}

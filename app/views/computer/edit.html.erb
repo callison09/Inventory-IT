@@ -1,0 +1,22 @@
+<h1>Test Form - Inventory 3.0.A</h1>
+<%= form_for(@computer, {url: '/computer'}) do |f| %>
+
+	<div>
+		Name: <%= f.text_field :name %>
+		<br />
+		SN: <%= f.text_field :sn %>
+	</div>
+	<br />
+	<div>
+	<%= fields_for 'computer[software]' do |s| %>
+		Software Name: <%= s.text_field :name %><br />
+		Developer: <%= s.text_field :dev %><br />
+		Serial Number: <%= s.text_field :sn %><br />
+	<% end %>
+	</div>
+	<%= f.submit "Submit" %>
+<% end %>
+
+<script type="text/javascript">
+	$("#computer_submit").button();
+</script>

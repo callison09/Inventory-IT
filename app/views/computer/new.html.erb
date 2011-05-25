@@ -1,0 +1,91 @@
+<%= form_for(@computer, {url: '/computer'}) do |f| %>
+<div class="pop">
+		<div id="computer_accordion">
+			<h3><a href="#">General</a></h3>
+			<div>
+				<p>
+					<div>
+						Name: <%= f.text_field :name, {class: "validate[required]"} %>
+						<br />
+						SN: <%= f.text_field :sn, {class: "validate[required]"} %>
+					</div>
+					<button type="button" class="soft next">Add Software</button>
+					<button type="button" class="finalize last">Finalize</button>
+
+				</p>
+			</div>
+			<h3><a href="#">Software</a></h3>
+			<div>
+				<p>
+				<div>
+				<%= fields_for 'computer[software]' do |s| %>
+					Software Name: <%= s.text_field :name %><br />
+					Developer: <%= s.text_field :dev %><br />
+					Serial Number: <%= s.text_field :sn %><br />
+				<% end %>
+				<button type="button" class="gen prev">Edit General</button>
+				<button type="button" class="finalize last">Finalize</button>
+				</div>
+				</p>
+			</div>
+			<h3><a href="#">Finalize</a></h3>
+			<div>
+				<p>
+					<button type="button" class="soft prev">Edit Software</button>
+					<button type="button" class="gen prev">Edit General</button>
+					<%= f.submit "Submit" %>
+				</p>
+			</div>
+		</div>
+	</div>
+<% end %>
+<script type="text/javascript" src="/javascripts/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	popIt();
+	$('#new_computer').validationEngine('attach');
+
+	$('#computer_accordion').accordion({fillSpace: true});
+	var h = $('.pop').css('height') - 100;
+	$('#computer_accordion >div').css('height', h);
+
+
+	$('#computer_accordion h3').unbind("click");
+
+	$('#computer_accordion .gen').each(function (index, elm) {
+	    $(elm).click(function() {
+	        $('#computer_accordion').accordion('activate', 0);
+	    });
+	});
+
+	$('#computer_accordion .soft').each(function (index, elm) {
+	    $(elm).click(function() {
+	    	if ($('#new_computer').validationEngine('validate'))
+	    	{
+	    		$('#computer_accordion').accordion('activate', 1);
+	    	}
+	    });
+	});
+
+	$('#computer_accordion .finalize').each(function (index, elm) {
+	    $(elm).click(function() {
+	    	if ($('#new_computer').validationEngine('validate'))
+	    	{
+	    		$('#computer_accordion').accordion('activate', 2);
+	    	}
+	    });
+	});
+
+	$('#computer_submit').button();
+	$(':button').button();
+	$('.last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
+	$('.next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
+	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
+	$('#computer_submit').css('color', 'green');
+
+});
+
+</script>
+

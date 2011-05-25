@@ -1,0 +1,11 @@
+<h1>Hi This is a new file</h1>
+
+<div id="test1">
+<% @computer.each do |c| %>
+	<a onclick="addtab('<%= c.name %>');">{name: <%= c.name %>}</a>
+	{sn: <%= c.sn %>}
+	{soft: <%= if c.software == nil then "NA" else c.software["name"] end %>}
+	<br />
+<% end %>
+</div>
+

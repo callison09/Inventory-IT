@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inventory30</title>
+
+  <link rel="stylesheet" type="text/css" href="/stylesheets/superfish.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/custom-theme/jquery-ui-1.8.12.custom.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/validationEngine.jquery.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+  
+  <link href='http://fonts.googleapis.com/css?family=Nobile:regular,bold' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet' type='text/css'>
+
+
+  <script type="text/javascript" src="/javascripts/jquery.js"></script>
+  <script type="text/javascript" src="/javascripts/jquery-ui-1.8.12.js"></script>
+  <script type="text/javascript" src="/javascripts/rails.js"></script>
+  <script type="text/javascript" src="/javascripts/application.js"></script>
+  <script type="text/javascript" src="/javascripts/superfish.js"></script>
+  <%= csrf_meta_tag %>
+  <script type="text/javascript">
+ 	function popIt () { //Keep the tab panels the same size as the window
+		var wh = parseInt($(window).height());
+		$(".pop").css("height", wh - 330);
+	}
+	
+	$(function() {
+		$( "#blackmamba" ).tabs({
+			tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>", //Create close button for new tabs
+			ajaxOptions: {
+				error: function( xhr, status, index, anchor ) {
+					$( anchor.hash ).html(
+						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
+						"If this wouldn't be a demo." );
+				}
+			},
+
+			add: function(event, ui) {
+	   			$("#blackmamba").tabs('select', '#' + ui.panel.id);
+				},
+	  		cache: true,
+	  		spinner: "Wait a sec..."
+		});
+
+	//Operate the close button on tabs
+		$( "#blackmamba span.ui-icon-close" ).live( "click", function() {
+			var index = $( "li", "#blackmamba" ).index( $( this ).parent() );
+			$("#blackmamba").tabs( "remove", index );
+		});
+
+		//Keep the tab panels the same size as the window
+		$(window).resize(function() {
+	   		popIt();
+		});
+
+	popIt();
+		
+	$('ul.sf-menu li').addClass("ui-widget-content ui-state-default");
+	//$('ul.sf-menu li:first').addClass("ui-corner-left");
+	$('ul.sf-menu li:last').addClass("ui-corner-right");
+	$('ul.sf-menu li').hover(function(){
+		$(this).toggleClass('ui-state-hover');
+
+	});
+
+	$('ul.sf-menu li li span').addClass("ui-icon ui-icon-carat-1-e");
+	$('ul.sf-menu li span.down-a').addClass("ui-icon ui-icon-carat-1-s");
+
+	$("ul.sf-menu").superfish({
+            delay:       379,
+            animation:   {opacity:'show',height:'show', width:'show'}, 
+            speed:       'fast',
+            autoArrows:  false,
+            dropShadows: false,
+            disableHI:   true
+	});
+
+});
+
+
+
+
+	 
+
+  </script>
+</head>
+<body>
+<div id="logo">
+	<img src="/images/inv3.png" />
+</div>
+
+<div id="topnav_container">
+<ul class="sf-menu ui-widget ui-widget-header ui-corner-right">
+			<li class="current">
+				<a href="#a" class="wa">New</a>
+
+				<span class='down-a'></span>
+				<ul>
+					<li>
+						<a href="#" onclick="addtab('/computer/new', 'New Computer');">Computer</a>
+					</li>
+					<li class="current">
+						<a href="#ab" onclick="addtab('/department/new', 'New Department');">Department</a>
+					</li>
+					<li>
+						<a href="#">Employee</a>
+					</li>
+					<li>
+						<a href="#">Network</a>
+
+						<span class='right-a'></span>
+						<ul>
+							<li><a href="#">Switch</a></li>
+							<li><a href="#">Firewall</a></li>
+							<li><a href="#">UPS</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Accessory</a>
+
+						<span class='right-a'></span>
+						<ul>
+							<li><a href="#">General</a></li>
+							<li><a href="#">Projector</a></li>
+							<li><a href="#">Phone</a></li>
+							<li><a href="#">Cable</a></li>
+							<li><a href="#">Hard Drive</a></li>
+							<li><a href="#">Mouse</a></li>
+							<li><a href="#">Keyboard</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Article</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">Tickets</a>
+			</li>
+			<li>
+				<a href="#">Lists</a>
+
+				<span class='down-a' style="float: right;"></span>
+				<ul>
+					<li>
+						<a href="#">Computers</a>
+
+						<span class='right-a'></span>
+						<ul>
+							<li><a href="#">Accounting</a></li>
+							<li><a href="#">Reservations</a></li>
+							<li><a href="#">Ect..</a></li>
+							<li><a href="#">Ect..</a></li>
+							<li><a href="#">Ect..</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Employees</a>
+
+						<span class='right-a'></span>
+						<ul>
+							<li><a href="#">Accounting</a></li>
+							<li><a href="#">Reservations</a></li>
+							<li><a href="#">Ect..</a></li>
+							<li><a href="#">Ect..</a></li>
+							<li><a href="#">Ect..</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Network</a>
+
+						<span class='right-a'></span>
+						<ul>
+							<li><a href="#">Switches</a></li>
+							<li><a href="#">Firewalls</a></li>
+							<li><a href="#">UPS</a></li>
+							<li><a href="#">Servers</a></li>
+							<li><a href="#">Ect..</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Accessories</a>
+
+						<span class='right-a'></span>
+						<ul>
+							<li><a href="#">Accounting</a></li>
+							<li><a href="#">Reservations</a></li>
+							<li><a href="#">Ect..</a></li>
+							<li><a href="#">Ect..</a></li>
+							<li><a href="#">Ect..</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Departments</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">Troubleshooting</a>
+
+				<span class='down-a'></span>
+				<ul>
+					<li><a href="#">Connectivity</a></li>
+					<li><a href="#">Power</a></li>
+					<li><a href="#">Lotus</a></li>
+					<li><a href="#">Outlook</a></li>
+					<li><a href="#">Phones</a></li>
+				</ul>
+			</li>	
+			<li>
+				<a href="#">Help</a>
+			</li>
+		</ul>  
+</div><br /><br />
+
+
+<div id="blackmamba"> <!-- don't touch it -->
+	<ul>
+		<li><a href="#tabs-1"><span class='ui-icon ui-icon-home'></span>Home</a></li>
+		<li><a href="#tabs-2"><span class='ui-icon ui-icon-zoomin'></span>Find</a></li>
+	</ul>
+	<div id="tabs-1">
+		<div class="pop"><%= yield %></div>
+	</div>
+	<div id="tabs-2">
+		<div class="pop">Search box goes in this area... maybe</div>
+	</div>
+</div>
+
+<div id="footer" style="float: right; color: #000099;font-family: 'Aclonica', arial, serif; ">(C)2011 Hotelbeds USA. By Chris Allison</div>
+</body>
+</html>
