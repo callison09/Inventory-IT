@@ -1,0 +1,36 @@
+/*---FIRST!!!---*/
+body {
+	background: #FFF url('/images/bg2.jpg') no-repeat top right;
+	padding: 0;
+	margin: 0;
+}
+
+#logo p {
+	font-family: 'Rock Salt', serif;
+	font-size: 30px;
+	font-style: normal;
+	font-weight: 400;
+	text-shadow: 3px 3px 3px #000;
+	text-decoration: none;
+	text-transform: none;
+	letter-spacing: 0em;
+	word-spacing: 0em;
+	line-height: 1.2;
+	color: #44A;
+	margin-left: 140px;
+}
+#logo #three {
+	color: #393;
+}
+
+#tag {
+	color: #000;
+}
+
+.er-ico
+{
+	border: 1px solid #F00;
+	position: relative;
+	top: 2px;
+	margin-right: 2px;
+}

@@ -1,7 +1,7 @@
 Inventory30::Application.routes.draw do
 
   root :to => "root#index"
-
+  post "root/theme"
   get "root/find"
   resources :department
   resources :computer

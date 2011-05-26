@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Inventory30</title>
-
-  <link rel="stylesheet" type="text/css" href="/stylesheets/superfish.css" />
-  <link rel="stylesheet" type="text/css" href="/stylesheets/custom-theme/jquery-ui-1.8.12.custom.css" />
-  <link rel="stylesheet" type="text/css" href="/stylesheets/validationEngine.jquery.css" />
-  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
-  
-  <link href='http://fonts.googleapis.com/css?family=Nobile:regular,bold' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet' type='text/css'>
+	<title>Inventory30</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/superfish.css" />
 
 
-  <script type="text/javascript" src="/javascripts/jquery.js"></script>
-  <script type="text/javascript" src="/javascripts/jquery-ui-1.8.12.js"></script>
-  <script type="text/javascript" src="/javascripts/rails.js"></script>
-  <script type="text/javascript" src="/javascripts/application.js"></script>
-  <script type="text/javascript" src="/javascripts/superfish.js"></script>
-  <%= csrf_meta_tag %>
-  <script type="text/javascript">
- 	function popIt () { //Keep the tab panels the same size as the window
+	<% if @theme == "dark" then #Theme Selection code %>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/custom-theme/jquery-ui-1.8.13.custom.css" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style-dark.css" />
+		<link  href="http://fonts.googleapis.com/css?family=Wallpoet:regular" rel="stylesheet" type="text/css" >
+	<% elsif @theme == "light" then %>
+		<link href='http://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/custom-theme1/jquery-ui-1.8.12.custom.css" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style-light.css" />
+	<% end %>
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/validationEngine.jquery.css" />
+	<link href='http://fonts.googleapis.com/css?family=Nobile:regular,bold' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet' type='text/css'>
+
+
+	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-ui-1.8.12.js"></script>
+	<script type="text/javascript" src="/javascripts/rails.js"></script>
+	<script type="text/javascript" src="/javascripts/application.js"></script>
+	<script type="text/javascript" src="/javascripts/superfish.js"></script>
+	<%= csrf_meta_tag %>
+	<script type="text/javascript">
+	function popIt () { //Keep the tab panels the same size as the window
 		var wh = parseInt($(window).height());
 		$(".pop").css("height", wh - 330);
 	}
@@ -36,10 +45,10 @@
 			},
 
 			add: function(event, ui) {
-	   			$("#blackmamba").tabs('select', '#' + ui.panel.id);
+				$("#blackmamba").tabs('select', '#' + ui.panel.id);
 				},
-	  		cache: true,
-	  		spinner: "Wait a sec..."
+			cache: true,
+			spinner: "Wait a sec..."
 		});
 
 	//Operate the close button on tabs
@@ -50,11 +59,11 @@
 
 		//Keep the tab panels the same size as the window
 		$(window).resize(function() {
-	   		popIt();
+			popIt();
 		});
 
 	popIt();
-		
+	
 	$('ul.sf-menu li').addClass("ui-widget-content ui-state-default");
 	//$('ul.sf-menu li:first').addClass("ui-corner-left");
 	$('ul.sf-menu li:last').addClass("ui-corner-right");
@@ -67,26 +76,28 @@
 	$('ul.sf-menu li span.down-a').addClass("ui-icon ui-icon-carat-1-s");
 
 	$("ul.sf-menu").superfish({
-            delay:       379,
-            animation:   {opacity:'show',height:'show', width:'show'}, 
-            speed:       'fast',
-            autoArrows:  false,
-            dropShadows: false,
-            disableHI:   true
+		delay:       379,
+		animation:   {height:'show'}, 
+		speed:       'fast',
+		autoArrows:  false,
+		dropShadows: false,
+		disableHI:   true
+	});
+
+	$("#theme1_submit").button();
+	$(".radios2").buttonset();
+	$("#changeform").hide();
+	$("#themechanger #tag").click(function(){
+		$("#changeform").toggle();
 	});
 
 });
+</script>
 
-
-
-
-	 
-
-  </script>
 </head>
 <body>
 <div id="logo">
-	<img src="/images/inv3.png" />
+	<p>INV<span id="three">3</span>NTORY</p>
 </div>
 
 <div id="topnav_container">
@@ -227,6 +238,25 @@
 	</div>
 </div>
 
-<div id="footer" style="float: right; color: #000099;font-family: 'Aclonica', arial, serif; ">(C)2011 Hotelbeds USA. By Chris Allison</div>
+<div id="footer" style="float: right; color: #FFF;font-family: 'Aclonica', arial, serif; text-shadow: 2px 2px 2px #000;">(C)2011 Hotelbeds USA. By Chris Allison</div>
+<div id="themechanger">
+	<span id="tag" style="cursor: pointer;">Change Theme<span class="ui-icon ui-icon-triangle-1-e" style="float: left; margin-top: 3px;"></span></span>
+
+	<div id="changeform">
+		<div class="ui-widget" style="padding: 0.5em">
+			<span class="ui-state-error ui-corner-all" style="padding: 0.1em;">Changing theme's will reload the page and destroy open tabs<span class="er-ico ui-icon ui-icon-alert" style="float: left; margin-top: 3px;"></span></span><br /><br />
+		</div>
+		<%= form_for(:theme1, {url: '/root/theme'}) do |t| %>
+
+		<span class="radios2">
+			<%= t.radio_button :ts, "dark" %><label for="theme1_ts_dark">Dark</label>
+			<%= t.radio_button :ts, "light" %><label for="theme1_ts_light">Light</label>
+		</span>
+		<%= t.submit "Change" %>
+
+		<% end %>
+	</div>
+<br />
+</div>
 </body>
 </html>

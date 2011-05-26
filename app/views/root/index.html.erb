@@ -1,11 +1,18 @@
 <div id="accordion">
 	<h3><a href="#">Overview</a></h3>
 	<div>
-		<p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+		<p>
+		Number of Computers: <%= @number_of_computers %>
+		</p>
 	</div>
 	<h3><a href="#">Changes</a></h3>
 	<div>
 		<p>
+		Newest Computers: <br />
+		<% for c in @new_computers %>
+			<span class="computerListing"><a onclick='addtab("/computer/<%= c.name %>", "Computer: <%= c.name %>");'><%= c.name %></a></span>
+			<br />
+		<% end %>
 		</p>
 	</div>
 	<h3><a href="#">Stats</a></h3>

@@ -1,10 +1,8 @@
 /*---FIRST!!!---*/
-body {
-	background: #FFF url('/images/bg.jpg') no-repeat right top;
-	padding: 0;
-	margin: 0;
-}
 
+#themechanger{
+	margin-left: 10px;
+}
 
 /*---Home tab accordion---*/
 #blackmamba{margin-top: 20px;}
@@ -25,10 +23,7 @@ a { cursor: pointer; text-decoration: underline; }
 
 /*---Forms---*/
 input {
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	border-bottom: 2px solid #339;
+	border: 2px solid #339;
 	outline: none;
 }
 

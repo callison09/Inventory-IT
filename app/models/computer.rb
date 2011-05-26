@@ -26,6 +26,9 @@ class Computer
 	key :updater, String
 	timestamps!
 
+	ensure_index :created_at
+	ensure_index :updated_at 
+	
 	many :softwares
 	many :comments
 

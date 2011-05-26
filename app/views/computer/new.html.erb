@@ -5,10 +5,34 @@
 			<div>
 				<p>
 					<div>
-						Name: <%= f.text_field :name, {class: "validate[required]"} %>
+						Name:<br /><%= f.text_field :name, {class: "validate[required]"} %>
 						<br />
-						SN: <%= f.text_field :sn, {class: "validate[required]"} %>
+						SN:<br /><%= f.text_field :sn, {class: "validate[required]"} %>
+						<br /><br />
+						<div class='radios1'>
+							Status:
+								<%= f.radio_button :status, "active" %><label for="computer_status_active">Active</label>
+								<%= f.radio_button :status, "inactive" %><label for="computer_status_inactive">Inactive</label>
+						</div><br />
+						<div class='radios1'>
+							Machine Type:
+								<%= f.radio_button :mtype, "laptop" %><label for="computer_mtype_laptop">Laptop</label>
+								<%= f.radio_button :mtype, "desktop" %><label for="computer_mtype_desktop">Desktop</label>
+								<%= f.radio_button :mtype, "server" %><label for="computer_mtype_server">Server</label>
+							</div>
+							<br />
+						<div class='radios1'>
+							Location:
+								<%= f.radio_button :loc, "orlando" %><label for="computer_loc_orlando">Orlando</label>
+								<%= f.radio_button :loc, "homes" %><label for="computer_loc_homes">Homes</label>
+								<%= f.radio_button :loc, "miami" %><label for="computer_loc_miami">Miami</label>
+								<%= f.radio_button :loc, "hawaii" %><label for="computer_loc_hawaii">Hawaii</label>
+								<%= f.radio_button :loc, "vegas" %><label for="computer_loc_vegas">Las Vegas</label>
+								<%= f.radio_button :loc, "newyork" %><label for="computer_loc_newyork">New York</label>
+						</div>
 					</div>
+
+					<br /><br />
 					<button type="button" class="soft next">Add Software</button>
 					<button type="button" class="finalize last">Finalize</button>
 
@@ -45,6 +69,20 @@
 
 $(document).ready(function(){
 	popIt();
+	$(':input[type=text], select').addClass('ui-corner-all ui-state-default');
+	$(':input[type=text], select').hover(
+		function (){ 
+			$(this).toggleClass('ui-state-hover'); 
+		});
+	$(':input[type=text], select').focus(function(){
+		$(this).toggleClass('ui-state-active');
+	});
+	$(':input[type=text], select').blur(function(){
+		$(this).toggleClass('ui-state-active');
+	});
+
+	$('.radios1').buttonset();
+
 	$('#new_computer').validationEngine('attach');
 
 	$('#computer_accordion').accordion({fillSpace: true});
@@ -83,7 +121,8 @@ $(document).ready(function(){
 	$('.last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
 	$('.next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
 	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
-	$('#computer_submit').css('color', 'green');
+	$('#computer_submit').css('color', '#0C0');
+	$('#computer_submit').css('border', '1px solid #0A0');
 
 });
 

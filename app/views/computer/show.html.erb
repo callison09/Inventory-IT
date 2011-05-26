@@ -1,5 +1,14 @@
-<h1>Hi This is a new file</h1>
-	<a href='/computer/<%= @computer.name %>'>{name: <%= @computer.name %>}</a>
-	{sn: <%= @computer.sn %>}
-	{soft: <%= if @computer.software == nil then "NA" else @computer.software["name"] end %>}
-	<br />
+<div class="pop">
+	<h1>Hi This is a new file</h1>
+		<a href='/computer/<%= @computer.name %>'>{name: <%= @computer.name %>}</a>
+		{sn: <%= @computer.sn %>}
+		{soft: }
+		<br />
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	popIt();
+});
+
+</script>

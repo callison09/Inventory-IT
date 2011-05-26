@@ -25,7 +25,6 @@ class ComputerController < ApplicationController
 	
 	def show
 		@computer = Computer.where(:name => params[:id]).first
-		
 	end
 
 	def edit
