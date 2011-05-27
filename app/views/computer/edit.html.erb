@@ -1,22 +1,145 @@
-<h1>Test Form - Inventory 3.0.A</h1>
-<%= form_for(@computer, {url: '/computer'}) do |f| %>
+<%= form_for(@computer, :remote => true) do |f| %>
+<div class="pop">
+		<div id="computer_accordion">
+			<h3><a href="#">General</a></h3>
+			<div>
+				<p>
+					<div>
+						Name:<br /><%= f.text_field :name, {class: "validate[required]"} %>
+						<br />
+						SN:<br /><%= f.text_field :sn, {class: "validate[required]"} %>
+						<br /><br />
+						<div class='radios1'>
+							Status:
+								<%= f.radio_button :status, "active" %><label for="computer_status_active">Active</label>
+								<%= f.radio_button :status, "inactive" %><label for="computer_status_inactive">Inactive</label>
+						</div><br />
+						<div class='radios1'>
+							Machine Type:
+								<%= f.radio_button :mtype, "laptop" %><label for="computer_mtype_laptop">Laptop</label>
+								<%= f.radio_button :mtype, "desktop" %><label for="computer_mtype_desktop">Desktop</label>
+								<%= f.radio_button :mtype, "server" %><label for="computer_mtype_server">Server</label>
+							</div>
+							<br />
+						<div class='radios1'>
+							Location:
+								<%= f.radio_button :loc, "orlando" %><label for="computer_loc_orlando">Orlando</label>
+								<%= f.radio_button :loc, "homes" %><label for="computer_loc_homes">Homes</label>
+								<%= f.radio_button :loc, "miami" %><label for="computer_loc_miami">Miami</label>
+								<%= f.radio_button :loc, "hawaii" %><label for="computer_loc_hawaii">Hawaii</label>
+								<%= f.radio_button :loc, "vegas" %><label for="computer_loc_vegas">Las Vegas</label>
+								<%= f.radio_button :loc, "newyork" %><label for="computer_loc_newyork">New York</label>
+						</div>
+					</div>
 
-	<div>
-		Name: <%= f.text_field :name %>
-		<br />
-		SN: <%= f.text_field :sn %>
+					<br /><br />
+					<button type="button" class="soft next">Add Software</button>
+				</p>
+			</div>
+			<h3><a href="#">Software</a></h3>
+			<div>
+				<p>
+				<div>
+				<%= fields_for 'computer[software]' do |s| %>
+					Software Name: <%= s.text_field :name %><br />
+					Developer: <%= s.text_field :dev %><br />
+					Serial Number: <%= s.text_field :sn %><br />
+				<% end %>
+				<button type="button" class="gen prev">Edit General</button>
+				<button type="button" class="finalize last">Finalize</button>
+				</div>
+				</p>
+			</div>
+			<h3><a href="#">Finalize</a></h3>
+			<div>
+				<p>
+					<button type="button" class="soft prev">Edit Software</button>
+					<button type="button" class="gen prev">Edit General</button>
+					<%= f.submit "Submit" %>
+				</p>
+			</div>
+		</div>
 	</div>
-	<br />
-	<div>
-	<%= fields_for 'computer[software]' do |s| %>
-		Software Name: <%= s.text_field :name %><br />
-		Developer: <%= s.text_field :dev %><br />
-		Serial Number: <%= s.text_field :sn %><br />
-	<% end %>
-	</div>
-	<%= f.submit "Submit" %>
 <% end %>
+<div id="finishing_edit"></div>
 
+<script type="text/javascript" src="/javascripts/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
 <script type="text/javascript">
-	$("#computer_submit").button();
+
+$(document).ready(function(){
+	popIt();
+	$(':input[type=text], select').addClass('ui-corner-all ui-state-default');
+	$(':input[type=text], select').hover(
+		function (){ 
+			$(this).toggleClass('ui-state-hover'); 
+		});
+	$(':input[type=text], select').focus(function(){
+		$(this).toggleClass('ui-state-active');
+	});
+	$(':input[type=text], select').blur(function(){
+		$(this).toggleClass('ui-state-active');
+	});
+
+	$('.radios1').buttonset();
+
+	$('#edit_computer_<%= getIdFromName(params[:id]) %>').validationEngine('attach');
+
+	$('#computer_accordion').accordion({fillSpace: true});
+	var h = $('.pop').css('height') - 100;
+	$('#computer_accordion >div').css('height', h);
+
+
+	//$('#computer_accordion h3').unbind("click");
+
+	$('#computer_accordion .gen').each(function (index, elm) {
+	    $(elm).click(function() {
+	        $('#computer_accordion').accordion('activate', 0);
+	    });
+	});
+
+	$('#computer_accordion .soft').each(function (index, elm) {
+	    $(elm).click(function() {
+	    	if ($('#new_computer').validationEngine('validate'))
+	    	{
+	    		$('#computer_accordion').accordion('activate', 1);
+	    	}
+	    });
+	});
+
+	$('#computer_accordion .finalize').each(function (index, elm) {
+	    $(elm).click(function() {
+	    	if ($('#new_computer').validationEngine('validate'))
+	    	{
+	    		$('#computer_accordion').accordion('activate', 2);
+	    	}
+	    });
+	});
+
+	$('#computer_submit').button();
+	$(':button').button();
+	$('.last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
+	$('.next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
+	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
+	$('#computer_submit').css('color', '#0C0');
+	$('#computer_submit').css('border', '1px solid #0A0');
+	$('#edit_computer_<%= getIdFromName(params[:id]) %>').bind('ajax:success', function(){
+  		$("#finishing_edit").html("Success!");
+  		$("#finishing_edit").dialog({
+			autoOpen: true,
+			show: "blind",
+			hide: "fade",
+			modal: true,
+			title: "Saved",
+			buttons: { "Ok": function() { 
+				var selected = $('#blackmamba').tabs('option', 'selected');
+				$(this).dialog("destroy"); 
+				$('#blackmamba').tabs('select', 0);
+				$('#blackmamba').tabs('remove', selected );
+				} }
+		});
+	});
+});
+
 </script>
+

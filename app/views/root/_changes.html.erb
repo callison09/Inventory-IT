@@ -1,0 +1,17 @@
+<span id="changes_update" style="display: none;">
+<div style="margin: 5px; padding: 2px; width: 250px;" class="ui-widget ui-corner-all">
+	<div style="padding: 4px" class="ui-widget-header">Newest Computers</div>
+	<div class="ui-widget-content">
+		<% for c in @new_computers %>
+		&nbsp;
+			<span class="computerListing"><a onclick='addtab("/computer/<%= c.name %>/edit", "Computer: <%= c.name %>");'><%= c.name %></a></span>
+			<span style="float: left; position: relative; top: 7px; left: 4px; cursor: pointer;" class="ui-icon ui-icon-triangle-1-e"></span>
+			<br />
+		<% end %>
+	</div>
+</div>
+</span>
+<script type="text/javascript">
+$('#changes_update').fadeIn();
+//$('.computerListing').button();
+</script>

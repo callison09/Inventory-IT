@@ -1,8 +1,15 @@
 Inventory30::Application.routes.draw do
 
   root :to => "root#index"
+
+  # Theme changer
   post "root/theme"
+  #Initial tabs and reloadable content for home page
   get "root/find"
+  get "root/welcome"
+  get "root/changes"
+
+  #generic resources
   resources :department
   resources :computer
   # The priority is based upon order of creation:

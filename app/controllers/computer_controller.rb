@@ -2,7 +2,7 @@ class ComputerController < ApplicationController
 	layout nil
 
 	def index
-		@computer = Computer.all
+		redirect_to "/"
 	end
 
 	def new
@@ -15,12 +15,17 @@ class ComputerController < ApplicationController
 		@computer.softwares.build(params[:computer][:software])
 		@computer.save!
 
-		redirect_to '/computer' and flash[:warn] = nil
+		redirect_to '/'
 
 	end
 
 	def update
-		
+		@CompID = params[:id]
+		@changes = params[:computer]
+		@computer = Computer.first(:id => @CompID)
+		if @computer.update_attributes!(@changes) then
+			redirect_to '/'
+		end
 	end
 	
 	def show

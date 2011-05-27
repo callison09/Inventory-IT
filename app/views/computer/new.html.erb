@@ -1,4 +1,4 @@
-<%= form_for(@computer, {url: '/computer'}) do |f| %>
+<%= form_for(@computer, :remote => true, :url => '/computer') do |f| %>
 <div class="pop">
 		<div id="computer_accordion">
 			<h3><a href="#">General</a></h3>
@@ -63,6 +63,8 @@
 		</div>
 	</div>
 <% end %>
+<div class="finishing"></div>
+
 <script type="text/javascript" src="/javascripts/jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
 <script type="text/javascript">
@@ -123,7 +125,22 @@ $(document).ready(function(){
 	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
 	$('#computer_submit').css('color', '#0C0');
 	$('#computer_submit').css('border', '1px solid #0A0');
-
+	$('#new_computer').bind('ajax:success', function(){
+  		$(".finishing").html("Success!");
+  		$(".finishing").dialog({
+			autoOpen: true,
+			show: "blind",
+			hide: "fade",
+			modal: true,
+			title: "Successfully saved to database",
+			buttons: { "Ok": function() { 
+				var selected = $('#blackmamba').tabs('option', 'selected');
+				$(this).dialog("destroy"); 
+				$('#blackmamba').tabs('select', 0);
+				$('#blackmamba').tabs('remove', selected );
+				} }
+		});
+	});
 });
 
 </script>

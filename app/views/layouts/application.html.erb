@@ -22,39 +22,52 @@
 
 
 	<script type="text/javascript" src="/javascripts/jquery.js"></script>
-	<script type="text/javascript" src="/javascripts/jquery-ui-1.8.12.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery-ui-1.8.13.js"></script>
 	<script type="text/javascript" src="/javascripts/rails.js"></script>
 	<script type="text/javascript" src="/javascripts/application.js"></script>
 	<script type="text/javascript" src="/javascripts/superfish.js"></script>
 	<%= csrf_meta_tag %>
 	<script type="text/javascript">
+
 	function popIt () { //Keep the tab panels the same size as the window
 		var wh = parseInt($(window).height());
 		$(".pop").css("height", wh - 330);
 	}
+
+	function reloadHome (){
+		$("#home_tab_refresh").effect("pulsate");
+		setTimeout("$('#home').load('/root/welcome')", 1500);
+		setTimeout("$('#changes').load('/root/changes')", 2500);
+		$("#home_tab_refresh").effect("fade");
+	}
 	
 	$(function() {
+		/* Tab declaration and initialzation */
 		$( "#blackmamba" ).tabs({
-			tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>", //Create close button for new tabs
+			//Create close button for new tabs
+			tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>", 
 			ajaxOptions: {
 				error: function( xhr, status, index, anchor ) {
 					$( anchor.hash ).html(
-						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
-						"If this wouldn't be a demo." );
+						"Couldn't load this tab. We'll try to fix this as soon as possible. ");
 				}
 			},
 
 			add: function(event, ui) {
-				$("#blackmamba").tabs('select', '#' + ui.panel.id);
+					$("#blackmamba").tabs('select', '#' + ui.panel.id);
+				},
+			remove: function(event, ui){
+					reloadHome();
 				},
 			cache: true,
 			spinner: "Wait a sec..."
 		});
 
-	//Operate the close button on tabs
+			//Operate the close button on tabs
 		$( "#blackmamba span.ui-icon-close" ).live( "click", function() {
 			var index = $( "li", "#blackmamba" ).index( $( this ).parent() );
 			$("#blackmamba").tabs( "remove", index );
+			$("#blackmamba").tabs("select", 0);
 		});
 
 		//Keep the tab panels the same size as the window
@@ -62,8 +75,10 @@
 			popIt();
 		});
 
+	/* Full screen tab sizes */
 	popIt();
 	
+	/* Top Menu */
 	$('ul.sf-menu li').addClass("ui-widget-content ui-state-default");
 	//$('ul.sf-menu li:first').addClass("ui-corner-left");
 	$('ul.sf-menu li:last').addClass("ui-corner-right");
@@ -71,10 +86,8 @@
 		$(this).toggleClass('ui-state-hover');
 
 	});
-
 	$('ul.sf-menu li li span').addClass("ui-icon ui-icon-carat-1-e");
 	$('ul.sf-menu li span.down-a').addClass("ui-icon ui-icon-carat-1-s");
-
 	$("ul.sf-menu").superfish({
 		delay:       379,
 		animation:   {height:'show'}, 
@@ -84,6 +97,7 @@
 		disableHI:   true
 	});
 
+	/* Theme Chooser */
 	$("#theme1_submit").button();
 	$(".radios2").buttonset();
 	$("#changeform").hide();
@@ -91,6 +105,8 @@
 		$("#changeform").toggle();
 	});
 
+	/* Load the accordian panel content */
+	reloadHome();
 });
 </script>
 
@@ -227,9 +243,11 @@
 
 <div id="blackmamba"> <!-- don't touch it -->
 	<ul>
-		<li><a href="#tabs-1"><span class='ui-icon ui-icon-home'></span>Home</a></li>
+		<li style="width: 125px;"><a href="#tabs-1"><span class='ui-icon ui-icon-home'></span>Home</a><span id="home_tab_refresh" style="float: right; display: none;" class="ui-icon ui-icon-signal-diag"></span></li>
 		<li><a href="#tabs-2"><span class='ui-icon ui-icon-zoomin'></span>Find</a></li>
+
 	</ul>
+
 	<div id="tabs-1">
 		<div class="pop"><%= yield %></div>
 	</div>
