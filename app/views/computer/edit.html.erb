@@ -1,5 +1,5 @@
 <%= form_for(@computer, :remote => true) do |f| %>
-<div class="pop">
+<div class="pop edit">
 		<div id="computer_accordion">
 			<h3><a href="#">General</a></h3>
 			<div>
@@ -40,11 +40,27 @@
 			<div>
 				<p>
 				<div>
-				<%= fields_for 'computer[software]' do |s| %>
-					Software Name: <%= s.text_field :name %><br />
-					Developer: <%= s.text_field :dev %><br />
-					Serial Number: <%= s.text_field :sn %><br />
+				<% if @software %>
+					<% for soft in @software %>
+						<div class="ui-widget ui-corner-all" style="margin: 15px;">
+						<div class="ui-widget-header ui-corner-all" style="padding: 0.4em;">Software Item<span style="float: right; position: relative; top: 4px; cursor: pointer;" class="close_software ui-icon ui-icon-circle-close"></span></div>
+						<div style="padding: 10px;" class="ui-widget-content">
+						<%= fields_for 'computer[software]', @software, :index => nil do |s| %>
+							Software Name: <br />
+							<%= text_field_tag "computer[software][][name]", soft['name'] %><br />
+							Developer:<br />
+							<%= text_field_tag "computer[software][][dev]", soft['dev'] %><br />
+							Serial Number:<br />
+							<%= text_field_tag "computer[software][][sn]", soft['sn'] %><br />
+						<% end %>
+						</div>
+						</div>
+					<% end %>
 				<% end %>
+				<div id="softwareFields">
+
+				</div>
+				<button type="button" id="add_software_link">Add Software</button>
 				<button type="button" class="gen prev">Edit General</button>
 				<button type="button" class="finalize last">Finalize</button>
 				</div>
@@ -81,24 +97,24 @@ $(document).ready(function(){
 		$(this).toggleClass('ui-state-active');
 	});
 
-	$('.radios1').buttonset();
+	$('.edit .radios1').buttonset();
 
-	$('#edit_computer_<%= getIdFromName(params[:id]) %>').validationEngine('attach');
+	$('#edit_computer_<%= params[:id] %>').validationEngine('attach');
 
-	$('#computer_accordion').accordion({fillSpace: true});
+	$('.edit #computer_accordion').accordion({fillSpace: true});
 	var h = $('.pop').css('height') - 100;
-	$('#computer_accordion >div').css('height', h);
+	$('.edit #computer_accordion >div').css('height', h);
 
 
 	//$('#computer_accordion h3').unbind("click");
 
-	$('#computer_accordion .gen').each(function (index, elm) {
+	$('.edit #computer_accordion .gen').each(function (index, elm) {
 	    $(elm).click(function() {
 	        $('#computer_accordion').accordion('activate', 0);
 	    });
 	});
 
-	$('#computer_accordion .soft').each(function (index, elm) {
+	$('.edit #computer_accordion .soft').each(function (index, elm) {
 	    $(elm).click(function() {
 	    	if ($('#new_computer').validationEngine('validate'))
 	    	{
@@ -107,11 +123,11 @@ $(document).ready(function(){
 	    });
 	});
 
-	$('#computer_accordion .finalize').each(function (index, elm) {
+	$('.edit #computer_accordion .finalize').each(function (index, elm) {
 	    $(elm).click(function() {
 	    	if ($('#new_computer').validationEngine('validate'))
 	    	{
-	    		$('#computer_accordion').accordion('activate', 2);
+	    		$('.edit #computer_accordion').accordion('activate', 2);
 	    	}
 	    });
 	});
@@ -123,7 +139,7 @@ $(document).ready(function(){
 	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
 	$('#computer_submit').css('color', '#0C0');
 	$('#computer_submit').css('border', '1px solid #0A0');
-	$('#edit_computer_<%= getIdFromName(params[:id]) %>').bind('ajax:success', function(){
+	$('#edit_computer_<%= params[:id] %>').bind('ajax:success', function(){
   		$("#finishing_edit").html("Success!");
   		$("#finishing_edit").dialog({
 			autoOpen: true,
@@ -138,6 +154,17 @@ $(document).ready(function(){
 				$('#blackmamba').tabs('remove', selected );
 				} }
 		});
+	});
+
+	$("#add_software_link").bind("click", function(){
+		$.get('/computer/add_software', function(data) {
+		  $('#softwareFields').append(data);
+		  style_form();
+		});
+	});
+
+	$('.close_software').live("click", function() {
+		$(this).parent().parent().remove();
 	});
 });
 

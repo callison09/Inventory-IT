@@ -8,6 +8,7 @@ Inventory30::Application.routes.draw do
   get "root/find"
   get "root/welcome"
   get "root/changes"
+  get "computer/add_software"
 
   #generic resources
   resources :department

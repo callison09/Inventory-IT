@@ -1,6 +1,6 @@
 <%= form_for(@computer, :remote => true, :url => '/computer') do |f| %>
-<div class="pop">
-		<div id="computer_accordion">
+<div class="pop new">
+		<div id="new_computer_accordion">
 			<h3><a href="#">General</a></h3>
 			<div>
 				<p>
@@ -33,7 +33,7 @@
 					</div>
 
 					<br /><br />
-					<button type="button" class="soft next">Add Software</button>
+					<button type="button" class="soft next">Software</button>
 					<button type="button" class="finalize last">Finalize</button>
 
 				</p>
@@ -41,98 +41,107 @@
 			<h3><a href="#">Software</a></h3>
 			<div>
 				<p>
+				<div id="softwareFields">
+
+				</div>
 				<div>
-				<%= fields_for 'computer[software]' do |s| %>
-					Software Name: <%= s.text_field :name %><br />
-					Developer: <%= s.text_field :dev %><br />
-					Serial Number: <%= s.text_field :sn %><br />
-				<% end %>
-				<button type="button" class="gen prev">Edit General</button>
-				<button type="button" class="finalize last">Finalize</button>
+					<button type="button" id="add_software_link">Add Software</button>
+					<button type="button" class="gen prev">General</button>
+					<button type="button" class="finalize last">Finalize</button>
 				</div>
 				</p>
 			</div>
 			<h3><a href="#">Finalize</a></h3>
 			<div>
 				<p>
-					<button type="button" class="soft prev">Edit Software</button>
-					<button type="button" class="gen prev">Edit General</button>
+					<button type="button" class="soft prev">Software</button>
+					<button type="button" class="gen prev">General</button>
 					<%= f.submit "Submit" %>
 				</p>
 			</div>
 		</div>
 	</div>
 <% end %>
-<div class="finishing"></div>
+<div id="new_comp_finishing"></div>
 
 <script type="text/javascript" src="/javascripts/jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
 <script type="text/javascript">
 
-$(document).ready(function(){
-	popIt();
-	$(':input[type=text], select').addClass('ui-corner-all ui-state-default');
-	$(':input[type=text], select').hover(
+function style_form() {
+	$(':input[type=text]').addClass('ui-corner-all ui-state-default');
+	$(':input[type=text]').hover(
 		function (){ 
 			$(this).toggleClass('ui-state-hover'); 
 		});
-	$(':input[type=text], select').focus(function(){
+	$(':input[type=text]').focus(function(){
 		$(this).toggleClass('ui-state-active');
 	});
-	$(':input[type=text], select').blur(function(){
+	$(':input[type=text]').blur(function(){
 		$(this).toggleClass('ui-state-active');
 	});
+}
 
-	$('.radios1').buttonset();
+$(document).ready(function(){
+	popIt();
+	style_form();
+
+	$('.new .radios1').buttonset();
 
 	$('#new_computer').validationEngine('attach');
 
-	$('#computer_accordion').accordion({fillSpace: true});
+	$('.new #new_computer_accordion').accordion({fillSpace: true});
 	var h = $('.pop').css('height') - 100;
-	$('#computer_accordion >div').css('height', h);
+	$('.new #new_computer_accordion >div').css('height', h);
 
 
-	$('#computer_accordion h3').unbind("click");
+	$('.new #new_computer_accordion h3').unbind("click");
 
-	$('#computer_accordion .gen').each(function (index, elm) {
+	$('.new #new_computer_accordion .gen').each(function (index, elm) {
 	    $(elm).click(function() {
-	        $('#computer_accordion').accordion('activate', 0);
+	        $('.new #new_computer_accordion').accordion('activate', 0);
 	    });
 	});
 
-	$('#computer_accordion .soft').each(function (index, elm) {
+	$('.new #new_computer_accordion .soft').each(function (index, elm) {
 	    $(elm).click(function() {
 	    	if ($('#new_computer').validationEngine('validate'))
 	    	{
-	    		$('#computer_accordion').accordion('activate', 1);
+	    		$('#new_computer_accordion').accordion('activate', 1);
 	    	}
 	    });
 	});
 
-	$('#computer_accordion .finalize').each(function (index, elm) {
+	$('.new #new_computer_accordion .finalize').each(function (index, elm) {
 	    $(elm).click(function() {
 	    	if ($('#new_computer').validationEngine('validate'))
 	    	{
-	    		$('#computer_accordion').accordion('activate', 2);
+	    		$('.new #new_computer_accordion').accordion('activate', 2);
 	    	}
 	    });
 	});
 
-	$('#computer_submit').button();
-	$(':button').button();
-	$('.last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
-	$('.next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
-	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
-	$('#computer_submit').css('color', '#0C0');
-	$('#computer_submit').css('border', '1px solid #0A0');
-	$('#new_computer').bind('ajax:success', function(){
-  		$(".finishing").html("Success!");
-  		$(".finishing").dialog({
+	/* Buttonville USA */
+	$('.new #computer_submit').button();
+	//$('.new :button').button();
+	$('.new .last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
+	$('.new .next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
+	$('.new .prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
+	$('.new #add_software_link').button( 'option', 'icons', {primary:'ui-icon-circle-plus'} );
+
+	/* CSS Additions other then initial form themeing */
+	$('.new #computer_submit').css('color', '#0C0');
+	$('.new #computer_submit').css('border', '1px solid #0A0');
+
+	/* Binds and Lives */
+	$('.new #new_computer').bind('ajax:success', function(){
+  		$("#new_comp_finishing").html("Success!");
+  		$("#new_comp_finishing").dialog({
 			autoOpen: true,
 			show: "blind",
 			hide: "fade",
 			modal: true,
-			title: "Successfully saved to database",
+			title: "Save",
 			buttons: { "Ok": function() { 
 				var selected = $('#blackmamba').tabs('option', 'selected');
 				$(this).dialog("destroy"); 
@@ -140,6 +149,30 @@ $(document).ready(function(){
 				$('#blackmamba').tabs('remove', selected );
 				} }
 		});
+	});
+	$('.new #new_computer').bind('ajax:error', function(xhr, ajaxOptions, thrownError){
+  		$("#new_comp_finishing").html(xhr);
+  		$("#new_comp_finishing").dialog({
+			autoOpen: true,
+			show: "blind",
+			hide: "fade",
+			modal: true,
+			title: "Save",
+			buttons: { "Ok": function() { 
+				$(this).dialog("destroy"); 
+				} }
+		});
+	});
+
+	$(".new #add_software_link").bind("click", function(){
+		$.get('/computer/add_software', function(data) {
+		  $('#softwareFields').append(data);
+		  style_form();
+		});
+	});
+
+	$('.new .close_software').live("click", function() {
+		$(this).parent().parent().remove();
 	});
 });
 

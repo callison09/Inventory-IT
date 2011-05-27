@@ -1,9 +1,9 @@
 class Software
 	include MongoMapper::EmbeddedDocument
 
-	key :name, String, {required: true}
-	key :dev, String, {required: true}
-	key :sn, String, {required: true}
+	key :name, String
+	key :dev, String
+	key :sn, String
 	key :pass, String
 	
 

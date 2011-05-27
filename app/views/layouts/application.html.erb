@@ -35,10 +35,11 @@
 	}
 
 	function reloadHome (){
-		$("#home_tab_refresh").effect("pulsate");
+		$('#home_tab_refresh').css('visibility', 'visible');
+		$("#home_tab_refresh").effect("pulsate", { times: 7 }, 500);
 		setTimeout("$('#home').load('/root/welcome')", 1500);
 		setTimeout("$('#changes').load('/root/changes')", 2500);
-		$("#home_tab_refresh").effect("fade");
+		setTimeout("$('#home_tab_refresh').css('visibility', 'hidden')", 3000);
 	}
 	
 	$(function() {
@@ -243,7 +244,7 @@
 
 <div id="blackmamba"> <!-- don't touch it -->
 	<ul>
-		<li style="width: 125px;"><a href="#tabs-1"><span class='ui-icon ui-icon-home'></span>Home</a><span id="home_tab_refresh" style="float: right; display: none;" class="ui-icon ui-icon-signal-diag"></span></li>
+		<li><a href="#tabs-1"><span class='ui-icon ui-icon-home'></span>Home</a><span id="home_tab_refresh" style="float: right; display: none; position: relative; top: 0; right: 0;" class="ui-icon ui-icon-signal-diag"></span></li>
 		<li><a href="#tabs-2"><span class='ui-icon ui-icon-zoomin'></span>Find</a></li>
 
 	</ul>

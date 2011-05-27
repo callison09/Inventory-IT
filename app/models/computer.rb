@@ -1,8 +1,8 @@
 class Computer
 	include MongoMapper::Document
 
-	key :name, String, {required: true}
-	key :sn, String, {required: true}
+	key :name, String, {required: true, unique: true}
+	key :sn, String, {required: true, uniquie: true}
 	key :status, String
 	key :mtype, String
 	key :loc, String

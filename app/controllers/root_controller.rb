@@ -26,6 +26,10 @@ class RootController < ApplicationController
 
   def changes #changes tab
     @new_computers = Computer.sort(:created_at.desc).limit(10)
-    render :partial => "changes", :locals => {:new_computers => @new_computers}
+    @recent_changed_computers = Computer.sort(:updated_at.desc).limit(10)
+    render :partial => "changes", :locals => {
+          :new_computers => @new_computers,
+          :recent_changed_computers => @recent_changed_computers
+        }
   end
 end
