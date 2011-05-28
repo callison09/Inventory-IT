@@ -2,7 +2,7 @@ class ComputerController < ApplicationController
 	layout nil
 
 	def index
-		redirect_to "/"
+		render :nothing => true
 	end
 
 	def new
@@ -16,7 +16,7 @@ class ComputerController < ApplicationController
 		@computer.softwares.build(params[:software])
 		@computer.save!
 
-		redirect_to '/'
+		render :nothing => true
 
 	end
 
@@ -25,7 +25,9 @@ class ComputerController < ApplicationController
 		@changes = params[:computer]
 		@computer = Computer.first(:id => @CompID)
 		if @computer.update_attributes!(@changes) then
-			redirect_to '/'
+			render :nothing =>  true
+		else
+			render :nothing => true, :status => 404
 		end
 	end
 	
@@ -44,7 +46,9 @@ class ComputerController < ApplicationController
 
 	def destroy
 		
+		render :nothing => true
 	end
+
 	def add_software
 		@software = Software.new
 		render :partial => 'add_software', :locals => {:software => @software}

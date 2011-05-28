@@ -43,7 +43,7 @@
 				<% if @software %>
 					<% for soft in @software %>
 						<div class="ui-widget ui-corner-all" style="margin: 15px;">
-						<div class="ui-widget-header ui-corner-all" style="padding: 0.4em;">Software Item<span style="float: right; position: relative; top: 4px; cursor: pointer;" class="close_software ui-icon ui-icon-circle-close"></span></div>
+						<div class="ui-widget-header ui-corner-top" style="padding: 0.4em;">Software Item<span style="float: right; position: relative; top: 4px; cursor: pointer;" class="close_software ui-icon ui-icon-circle-close"></span></div>
 						<div style="padding: 10px;" class="ui-widget-content">
 						<%= fields_for 'computer[software]', @software, :index => nil do |s| %>
 							Software Name: <br />

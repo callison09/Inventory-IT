@@ -46,7 +46,7 @@
 			});
 			sf.o[s] = sf.op = o;
 			
-			$('li:has(ul)',this)[($.fn.hoverIntent && !o.disableHI) ? 'hoverIntent' : 'hover'](over,out).each(function() {
+			$('li:has(ul)',this)[($.fn.hoverIntent && !o.disableHI) ? 'hoverIntent' : 'click'](over).each(function() {
 				if (o.autoArrows) addArrow( $('>a:first-child',this) );
 			})
 			.not('.'+c.bcClass)
@@ -90,7 +90,7 @@
 		speed		: 'normal',
 		autoArrows	: true,
 		dropShadows : true,
-		disableHI	: false,		// true disables hoverIntent detection
+		disableHI	: true,		// true disables hoverIntent detection
 		onInit		: function(){}, // callback functions
 		onBeforeShow: function(){},
 		onShow		: function(){},

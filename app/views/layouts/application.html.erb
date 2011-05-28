@@ -17,7 +17,9 @@
 	<% end %>
 
 	<link rel="stylesheet" type="text/css" href="/stylesheets/validationEngine.jquery.css" />
-	<link href='http://fonts.googleapis.com/css?family=Nobile:regular,bold' rel='stylesheet' type='text/css'>
+
+	<link href='http://fonts.googleapis.com/css?family=Brawler' rel='stylesheet' type='text/css'>
+
 	<link href='http://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet' type='text/css'>
 
 
@@ -34,12 +36,13 @@
 		$(".pop").css("height", wh - 330);
 	}
 
-	function reloadHome (){
+	function reloadHome (){ //Load the home page content into the accordion
 		$('#home_tab_refresh').css('visibility', 'visible');
 		$("#home_tab_refresh").effect("pulsate", { times: 7 }, 500);
 		setTimeout("$('#home').load('/root/welcome')", 1500);
 		setTimeout("$('#changes').load('/root/changes')", 2500);
 		setTimeout("$('#home_tab_refresh').css('visibility', 'hidden')", 3000);
+		
 	}
 	
 	$(function() {
@@ -53,10 +56,11 @@
 						"Couldn't load this tab. We'll try to fix this as soon as possible. ");
 				}
 			},
-
+			//When adding tab, select that tab
 			add: function(event, ui) {
 					$("#blackmamba").tabs('select', '#' + ui.panel.id);
 				},
+			//When tab closes, reload the home tab accordion content
 			remove: function(event, ui){
 					reloadHome();
 				},
@@ -64,7 +68,7 @@
 			spinner: "Wait a sec..."
 		});
 
-			//Operate the close button on tabs
+		//Operate the close button on tabs
 		$( "#blackmamba span.ui-icon-close" ).live( "click", function() {
 			var index = $( "li", "#blackmamba" ).index( $( this ).parent() );
 			$("#blackmamba").tabs( "remove", index );
@@ -108,6 +112,8 @@
 
 	/* Load the accordian panel content */
 	reloadHome();
+	
+	setTimeout("$('#tabs-2').load('/root/find');", 2500);
 });
 </script>
 
@@ -245,15 +251,14 @@
 <div id="blackmamba"> <!-- don't touch it -->
 	<ul>
 		<li><a href="#tabs-1"><span class='ui-icon ui-icon-home'></span>Home</a><span id="home_tab_refresh" style="float: right; display: none; position: relative; top: 0; right: 0;" class="ui-icon ui-icon-signal-diag"></span></li>
-		<li><a href="#tabs-2"><span class='ui-icon ui-icon-zoomin'></span>Find</a></li>
-
+		<li id="find_tab"><a href="#tabs-2"><span class='ui-icon ui-icon-zoomin'></span>Find</a></li>
 	</ul>
 
 	<div id="tabs-1">
 		<div class="pop"><%= yield %></div>
 	</div>
 	<div id="tabs-2">
-		<div class="pop">Search box goes in this area... maybe</div>
+		<div class="pop"></div>
 	</div>
 </div>
 

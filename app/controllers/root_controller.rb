@@ -9,7 +9,9 @@ class RootController < ApplicationController
   end
 
   def find
+    render :layout => false
   end
+
   def theme
   	theme = params[:theme1]
   	cookies[:theme1] = { 
