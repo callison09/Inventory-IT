@@ -85,15 +85,15 @@
 
 $(document).ready(function(){
 	popIt();
-	$(':input[type=text], select').addClass('ui-corner-all ui-state-default');
-	$(':input[type=text], select').hover(
+	$('#edit_computer_<%= params[:id] %> :input[type=text], select').addClass('ui-corner-all ui-state-default');
+	$('#edit_computer_<%= params[:id] %> :input[type=text], select').hover(
 		function (){ 
 			$(this).toggleClass('ui-state-hover'); 
 		});
-	$(':input[type=text], select').focus(function(){
+	$('#edit_computer_<%= params[:id] %> :input[type=text], select').focus(function(){
 		$(this).toggleClass('ui-state-active');
 	});
-	$(':input[type=text], select').blur(function(){
+	$('#edit_computer_<%= params[:id] %> :input[type=text], select').blur(function(){
 		$(this).toggleClass('ui-state-active');
 	});
 
