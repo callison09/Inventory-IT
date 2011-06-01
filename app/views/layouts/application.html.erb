@@ -41,44 +41,44 @@
 		$("#home_tab_refresh").effect("pulsate", { times: 7 }, 500);
 		setTimeout("$('#home').load('/root/welcome')", 1500);
 		setTimeout("$('#changes').load('/root/changes')", 2500);
-		setTimeout("$('#home_tab_refresh').css('visibility', 'hidden')", 3000);
+		setTimeout("$('#home_tab_refresh').css('visibility', 'hidden')", 3250);
 		
 	}
 	
-	$(function() {
-		/* Tab declaration and initialzation */
-		$( "#blackmamba" ).tabs({
-			//Create close button for new tabs
-			tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>", 
-			ajaxOptions: {
-				error: function( xhr, status, index, anchor ) {
-					$( anchor.hash ).html(
-						"Couldn't load this tab. We'll try to fix this as soon as possible. ");
-				}
+	$(document).ready(function() {
+	/* Tab declaration and initialzation */
+	$( "#blackmamba" ).tabs({
+		//Create close button for new tabs
+		tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>", 
+		ajaxOptions: {
+			error: function( xhr, status, index, anchor ) {
+				$( anchor.hash ).html(
+					"Couldn't load this tab. We'll try to fix this as soon as possible. ");
+			}
+		},
+		//When adding tab, select that tab
+		add: function(event, ui) {
+				$("#blackmamba").tabs('select', '#' + ui.panel.id);
 			},
-			//When adding tab, select that tab
-			add: function(event, ui) {
-					$("#blackmamba").tabs('select', '#' + ui.panel.id);
-				},
-			//When tab closes, reload the home tab accordion content
-			remove: function(event, ui){
-					reloadHome();
-				},
-			cache: true,
-			spinner: "Wait a sec..."
-		});
+		//When tab closes, reload the home tab accordion content
+		remove: function(event, ui){
+				reloadHome();
+			},
+		cache: true,
+		spinner: "Wait a sec..."
+	});
 
-		//Operate the close button on tabs
-		$( "#blackmamba span.ui-icon-close" ).live( "click", function() {
-			var index = $( "li", "#blackmamba" ).index( $( this ).parent() );
-			$("#blackmamba").tabs( "remove", index );
-			$("#blackmamba").tabs("select", 0);
-		});
+	//Operate the close button on tabs
+	$( "#blackmamba span.ui-icon-close" ).live( "click", function() {
+		var index = $( "li", "#blackmamba" ).index( $( this ).parent() );
+		$("#blackmamba").tabs( "remove", index );
+		$("#blackmamba").tabs("select", 0);
+	});
 
-		//Keep the tab panels the same size as the window
-		$(window).resize(function() {
-			popIt();
-		});
+	//Keep the tab panels the same size as the window
+	$(window).resize(function() {
+		popIt();
+	});
 
 	/* Full screen tab sizes */
 	popIt();

@@ -4,7 +4,7 @@
 	<div style="padding: 10px;" class="ui-widget-content">
 	<%= fields_for 'computer[software]', @software, :index => nil do |s| %>
 		Software Name: <br />
-		<%= s.text_field :name %><br />
+		<%= s.text_field :name , {id: 'addsoftware-' + @time} %><br />
 		Developer:<br />
 		<%= s.text_field :dev %><br />
 		Serial Number:<br />

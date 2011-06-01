@@ -1,5 +1,6 @@
 class ComputerController < ApplicationController
 	layout nil
+	#respond_to :html, :xml, :json
 
 	def index
 		render :nothing => true
@@ -10,13 +11,22 @@ class ComputerController < ApplicationController
 	end
 
 	def create
-
+		
 		@computer = Computer.new(params[:computer])
 
 		@computer.softwares.build(params[:software])
-		@computer.save!
 
-		render :nothing => true
+		if @computer.save
+			@string2 = @computer.name + " - " + @computer.sn
+			@status = 200
+		else
+			@computer.errors.full_messages.each {|x| @string2 << "<br /><span style='color: red;'>Error:&nbsp;</span><strong>#{x}</strong>" }
+			@status = 500
+		end
+		
+		respond_to {|f|
+			f.html { render :text => @string2, :status => @status }
+		}
 
 	end
 
@@ -45,11 +55,11 @@ class ComputerController < ApplicationController
 	end
 
 	def destroy
-		
 		render :nothing => true
 	end
 
 	def add_software
+		@time = Time.now.nsec.to_s
 		@software = Software.new
 		render :partial => 'add_software', :locals => {:software => @software}
 	end

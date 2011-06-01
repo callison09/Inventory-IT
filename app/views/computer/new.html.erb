@@ -1,34 +1,35 @@
-<%= form_for(@computer, :remote => true, :url => '/computer') do |f| %>
-<div class="pop new">
+<%= form_for(@computer, :remote => true, :url => '/computer', :html => { :'data-type' => 'html' }) do |f| %>
+<div class="pop">
 		<div id="new_computer_accordion">
 			<h3><a href="#">General</a></h3>
 			<div>
 				<p>
 					<div>
-						Name:<br /><%= f.text_field :name, {class: "validate[required]"} %>
+					<% # Each ID is specified manually to keep from conflicting with tabs that have similar forms %>
+						Name:<br /><%= f.text_field :name, {class: "validate[required]", id: "new-computer_name"} %>
 						<br />
-						SN:<br /><%= f.text_field :sn, {class: "validate[required]"} %>
+						SN:<br /><%= f.text_field :sn, {class: "validate[required]", id: "new-computer_sn"} %>
 						<br /><br />
-						<div class='radios1'>
+						<div class='newcomputer-radios'>
 							Status:
-								<%= f.radio_button :status, "active" %><label for="computer_status_active">Active</label>
-								<%= f.radio_button :status, "inactive" %><label for="computer_status_inactive">Inactive</label>
+								<%= f.radio_button :status, "active", {id: "new-computer_status_active"} %><label for="new-computer_status_active">Active</label>
+								<%= f.radio_button :status, "inactive", {id: "new-computer_status_inactive"} %><label for="new-computer_status_inactive">Inactive</label>
 						</div><br />
-						<div class='radios1'>
+						<div class='newcomputer-radios'>
 							Machine Type:
-								<%= f.radio_button :mtype, "laptop" %><label for="computer_mtype_laptop">Laptop</label>
-								<%= f.radio_button :mtype, "desktop" %><label for="computer_mtype_desktop">Desktop</label>
-								<%= f.radio_button :mtype, "server" %><label for="computer_mtype_server">Server</label>
+								<%= f.radio_button :mtype, "laptop", {id: "new-computer_mtype_laptop"} %><label for="new-computer_mtype_laptop">Laptop</label>
+								<%= f.radio_button :mtype, "desktop", {id: "new-computer_mtype_desktop"} %><label for="new-computer_mtype_desktop">Desktop</label>
+								<%= f.radio_button :mtype, "server", {id: "new-computer_mtype_server"} %><label for="new-computer_mtype_server">Server</label>
 							</div>
 							<br />
-						<div class='radios1'>
+						<div class='newcomputer-radios'>
 							Location:
-								<%= f.radio_button :loc, "orlando" %><label for="computer_loc_orlando">Orlando</label>
-								<%= f.radio_button :loc, "homes" %><label for="computer_loc_homes">Homes</label>
-								<%= f.radio_button :loc, "miami" %><label for="computer_loc_miami">Miami</label>
-								<%= f.radio_button :loc, "hawaii" %><label for="computer_loc_hawaii">Hawaii</label>
-								<%= f.radio_button :loc, "vegas" %><label for="computer_loc_vegas">Las Vegas</label>
-								<%= f.radio_button :loc, "newyork" %><label for="computer_loc_newyork">New York</label>
+								<%= f.radio_button :loc, "orlando", {id: "new-computer_loc_orlando"} %><label for="new-computer_loc_orlando">Orlando</label>
+								<%= f.radio_button :loc, "homes", {id: "new-computer_loc_homes"} %><label for="new-computer_loc_homes">Homes</label>
+								<%= f.radio_button :loc, "miami", {id: "new-computer_loc_miami"} %><label for="new-computer_loc_miami">Miami</label>
+								<%= f.radio_button :loc, "hawaii", {id: "new-computer_loc_hawaii"} %><label for="new-computer_loc_hawaii">Hawaii</label>
+								<%= f.radio_button :loc, "vegas", {id: "new-computer_loc_vegas"} %><label for="new-computer_loc_vegas">Las Vegas</label>
+								<%= f.radio_button :loc, "newyork", {id: "new-computer_loc_newyork"} %><label for="new-computer_loc_newyork">New York</label>
 						</div>
 					</div>
 
@@ -68,25 +69,51 @@
 <script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
 <script type="text/javascript">
 
-function style_form() {
-	$('#new_computer>:input[type=text]').addClass('ui-corner-all ui-state-default');
-	$('#new_computer>:input[type=text]').hover(
+var Inspect = {
+    TYPE_FUNCTION: 'function',
+    // Returns an array of (the names of) all methods
+    methods: function(obj) {
+        var testObj = obj || self;
+        var methods = [];
+        for (prop in testObj) {
+            if (typeof testObj[prop] == Inspect.TYPE_FUNCTION && typeof Inspect[prop] != Inspect.TYPE_FUNCTION) {
+                methods.push(prop);
+            }
+        }
+        return methods;
+    },
+    // Returns an array of (the names of) all properties
+    properties: function(obj) {
+        var testObj = obj || self;
+        var properties = [];
+        for (prop in testObj) {
+            if (typeof testObj[prop] != Inspect.TYPE_FUNCTION && typeof Inspect[prop] != Inspect.TYPE_FUNCTION) {
+                properties.push(prop);
+            }
+        }
+        return properties;
+    }
+}
+
+function style_new_computer_form() {
+	$('[id|="new"]:input[type=text]').addClass('ui-corner-all ui-state-default');
+	$('[id|="new"]:input[type=text]').hover(
 		function (){ 
 			$(this).toggleClass('ui-state-hover'); 
 		});
-	$('#new_computer>:input[type=text]').focus(function(){
+	$('[id|="new"]:input[type=text]').focus(function(){
 		$(this).toggleClass('ui-state-active');
 	});
-	$('#new_computer>:input[type=text]').blur(function(){
+	$('[id|="new"]:input[type=text]').blur(function(){
 		$(this).toggleClass('ui-state-active');
 	});
 }
 
 $(document).ready(function(){
 	popIt();
-	//style_form();
+	style_new_computer_form();
 
-	$('#new_computer .radios1').buttonset();
+	$('div[class|="newcomputer"]').buttonset();
 
 	$('#new_computer').validationEngine('attach');
 
@@ -95,15 +122,15 @@ $(document).ready(function(){
 	$('#new_computer_accordion >div').css('height', h);
 
 
-	$('#new_computer_accordion h3').unbind("click");
+	$('#new_computer_accordion>h3').unbind("click");
 
-	$('#new_computer_accordion .gen').each(function (index, elm) {
+	$('.gen').each(function (index, elm) {
 	    $(elm).click(function() {
-	        $('.new #new_computer_accordion').accordion('activate', 0);
+	        $('#new_computer_accordion').accordion('activate', 0);
 	    });
 	});
 
-	$('#new_computer_accordion .soft').each(function (index, elm) {
+	$('.soft').each(function (index, elm) {
 	    $(elm).click(function() {
 	    	if ($('#new_computer').validationEngine('validate'))
 	    	{
@@ -112,66 +139,68 @@ $(document).ready(function(){
 	    });
 	});
 
-	$('#new_computer_accordion .finalize').each(function (index, elm) {
-	    $(elm).click(function() {
-	    	if ($('#new_computer').validationEngine('validate'))
-	    	{
-	    		$('#new_computer_accordion').accordion('activate', 2);
-	    	}
-	    });
+	$('.finalize').each(function (index, elm) {
+		$(elm).click(function() {
+		if ($('#new_computer').validationEngine('validate'))
+		{
+			$('#new_computer_accordion').accordion('activate', 2);
+		}
+		});
 	});
 
 	/* Buttonville USA */
-	$('#computer_submit').button();
-	$('#new_computer_accordion .gen').button();
+	$('#new_computer :submit').button();
+	$(':button').button();
 	$('.last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
 	$('.next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
 	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
-	$('.new #add_software_link').button( 'option', 'icons', {primary:'ui-icon-circle-plus'} );
+	$('#n_add_software_link').button( 'option', 'icons', {primary:'ui-icon-circle-plus'} );
 
 	/* CSS Additions other then initial form themeing */
-	$('.new #computer_submit').css('color', '#0C0');
-	$('.new #computer_submit').css('border', '1px solid #0A0');
+	$('#computer_submit').css('color', '#0C0');
+	$('#computer_submit').css('border', '1px solid #0A0');
 
 	/* Binds and Lives */
-	$('#new_computer').bind('ajax:success', function(){
-  		$("#new_comp_finishing").html("Success!");
-  		$("#new_comp_finishing").dialog({
+	$('#new_computer').live('ajax:success', function(data, textStatus, jqXHR){
+		$("#new_comp_finishing").html("Saved Successfully: " + textStatus);
+		$("#new_comp_finishing").dialog({
 			autoOpen: true,
 			show: "blind",
 			hide: "fade",
 			modal: true,
-			title: "Save",
+			title: "Luke Filesaver",
 			buttons: { "Ok": function() { 
 				var selected = $('#blackmamba').tabs('option', 'selected');
-				$(this).dialog("destroy"); 
+				$(this).remove(); 
 				$('#blackmamba').tabs('select', 0);
 				$('#blackmamba').tabs('remove', selected );
 				} }
 		});
 	});
-	$('.new #new_computer').bind('ajax:error', function(xhr, ajaxOptions, thrownError){
-  		$("#new_comp_finishing").html(xhr);
-  		$("#new_comp_finishing").dialog({
+	$('#new_computer').live("ajax:error", function(xhr, textStatus, errorThrown){
+		$("#new_comp_finishing").html("Error: " + textStatus.status +
+			"<br /><br />" + textStatus.responseText);
+		$("#new_comp_finishing").dialog({
 			autoOpen: true,
 			show: "blind",
 			hide: "fade",
 			modal: true,
-			title: "Save",
+			title: "Luke Filesaver",
+			width: "500px",
 			buttons: { "Ok": function() { 
-				$(this).dialog("destroy"); 
-				} }
+						$(this).dialog("destroy"); 
+					} }
 		});
 	});
 
 	$("#n_add_software_link").bind("click", function(){
 		$.get('/computer/add_software', function(data) {
 		  $('#new_softwareFields').append(data);
-		  style_form();
+		  style_new_computer_form();
 		});
 	});
 
-	$('.new .close_software').live("click", function() {
+	$('.close_software').live("click", function() {
 		$(this).parent().parent().remove();
 	});
 });

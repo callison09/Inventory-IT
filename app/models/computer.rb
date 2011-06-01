@@ -1,12 +1,12 @@
 class Computer
 	include MongoMapper::Document
 
-	key :name, String, {required: true, unique: true}
-	key :sn, String, {required: true, uniquie: true}
+	key :name, String, :required => true, :unique => true
+	key :sn, String, :required => true, :unique => true
 	key :status, String
 	key :mtype, String
 	key :loc, String
-	key :department, String
+	key :dpt, String
 	key :make, String
 	key :model, String
 
@@ -31,6 +31,7 @@ class Computer
 	
 	many :softwares
 	many :comments
+
 
 
 end
