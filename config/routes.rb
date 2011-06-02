@@ -10,6 +10,8 @@ Inventory30::Application.routes.draw do
   get "root/changes"
   get "computer/add_software"
 
+  match "department/get_location_departments/:location" => 'department#get_location_departments'
+
   #generic resources
   resources :department
   resources :computer

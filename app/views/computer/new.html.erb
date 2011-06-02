@@ -1,14 +1,15 @@
 <%= form_for(@computer, :remote => true, :url => '/computer', :html => { :'data-type' => 'html' }) do |f| %>
-<div class="pop">
+<div class="pop" id="new_computer_container" style="display: none;">
 		<div id="new_computer_accordion">
 			<h3><a href="#">General</a></h3>
 			<div>
 				<p>
 					<div>
 					<% # Each ID is specified manually to keep from conflicting with tabs that have similar forms %>
-						Name:<br /><%= f.text_field :name, {class: "validate[required]", id: "new-computer_name"} %>
-						<br />
-						SN:<br /><%= f.text_field :sn, {class: "validate[required]", id: "new-computer_sn"} %>
+						Name:&nbsp;<%= f.text_field :name, {class: "validate[required]", id: "new-computer_name", size: 10} %>
+						&nbsp;
+						SN:&nbsp;<%= f.text_field :sn, {class: "validate[required]", id: "new-computer_sn", size: 12} %>
+						&nbsp;
 						<br /><br />
 						<div class='newcomputer-radios'>
 							Status:
@@ -24,13 +25,19 @@
 							<br />
 						<div class='newcomputer-radios'>
 							Location:
-								<%= f.radio_button :loc, "orlando", {id: "new-computer_loc_orlando"} %><label for="new-computer_loc_orlando">Orlando</label>
-								<%= f.radio_button :loc, "homes", {id: "new-computer_loc_homes"} %><label for="new-computer_loc_homes">Homes</label>
-								<%= f.radio_button :loc, "miami", {id: "new-computer_loc_miami"} %><label for="new-computer_loc_miami">Miami</label>
-								<%= f.radio_button :loc, "hawaii", {id: "new-computer_loc_hawaii"} %><label for="new-computer_loc_hawaii">Hawaii</label>
-								<%= f.radio_button :loc, "vegas", {id: "new-computer_loc_vegas"} %><label for="new-computer_loc_vegas">Las Vegas</label>
-								<%= f.radio_button :loc, "newyork", {id: "new-computer_loc_newyork"} %><label for="new-computer_loc_newyork">New York</label>
+								<%= f.radio_button :loc, "Orlando", {id: "new-computer_loc_orlando"} %><label for="new-computer_loc_orlando">Orlando</label>
+								<%= f.radio_button :loc, "Homes", {id: "new-computer_loc_homes"} %><label for="new-computer_loc_homes">Homes</label>
+								<%= f.radio_button :loc, "Miami", {id: "new-computer_loc_miami"} %><label for="new-computer_loc_miami">Miami</label>
+								<%= f.radio_button :loc, "Hawaii", {id: "new-computer_loc_hawaii"} %><label for="new-computer_loc_hawaii">Hawaii</label>
+								<%= f.radio_button :loc, "Vegas", {id: "new-computer_loc_vegas"} %><label for="new-computer_loc_vegas">Las Vegas</label>
+								<%= f.radio_button :loc, "Newyork", {id: "new-computer_loc_newyork"} %><label for="new-computer_loc_newyork">New York</label>
 						</div>
+						<br / >
+						<span>
+							<span style="float: left; position: relative;top: 5px; display: none;" class="loading-dpts ui-icon ui-icon-signal"></span>
+							Department: <%= f.select :dpt, [], :class => "validate[required]", :id => "new-computer-dpt" %>
+						</span>
+
 					</div>
 
 					<br /><br />
@@ -69,68 +76,24 @@
 <script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
 <script type="text/javascript">
 
-var Inspect = {
-    TYPE_FUNCTION: 'function',
-    // Returns an array of (the names of) all methods
-    methods: function(obj) {
-        var testObj = obj || self;
-        var methods = [];
-        for (prop in testObj) {
-            if (typeof testObj[prop] == Inspect.TYPE_FUNCTION && typeof Inspect[prop] != Inspect.TYPE_FUNCTION) {
-                methods.push(prop);
-            }
-        }
-        return methods;
-    },
-    // Returns an array of (the names of) all properties
-    properties: function(obj) {
-        var testObj = obj || self;
-        var properties = [];
-        for (prop in testObj) {
-            if (typeof testObj[prop] != Inspect.TYPE_FUNCTION && typeof Inspect[prop] != Inspect.TYPE_FUNCTION) {
-                properties.push(prop);
-            }
-        }
-        return properties;
-    }
-}
-
-function style_new_computer_form() {
-	$('[id|="new"]:input[type=text]').addClass('ui-corner-all ui-state-default');
-	$('[id|="new"]:input[type=text]').hover(
-		function (){ 
-			$(this).toggleClass('ui-state-hover'); 
-		});
-	$('[id|="new"]:input[type=text]').focus(function(){
-		$(this).toggleClass('ui-state-active');
-	});
-	$('[id|="new"]:input[type=text]').blur(function(){
-		$(this).toggleClass('ui-state-active');
-	});
-}
-
-$(document).ready(function(){
-	popIt();
-	style_new_computer_form();
-
+$(document).ready(function () {
+	theme_forms("new");
+	
 	$('div[class|="newcomputer"]').buttonset();
 
 	$('#new_computer').validationEngine('attach');
 
-	$('#new_computer_accordion').accordion({fillSpace: true});
-	var h = $('.pop').css('height') - 100;
-	$('#new_computer_accordion >div').css('height', h);
-
-
-	$('#new_computer_accordion>h3').unbind("click");
-
-	$('.gen').each(function (index, elm) {
+	// New Form navigation buttons.
+	// The accordion header are not clickable so that we can attach
+	// validation to the process of stepping through the form.
+	$('.gen').each(function (index, elm) { // Akways can go back to general heading
 	    $(elm).click(function() {
 	        $('#new_computer_accordion').accordion('activate', 0);
 	    });
 	});
 
-	$('.soft').each(function (index, elm) {
+	$('.soft').each(function (index, elm) { // Calls the validation process and checks if it's true
+											// if it is the heading changes to the desired state
 	    $(elm).click(function() {
 	    	if ($('#new_computer').validationEngine('validate'))
 	    	{
@@ -157,10 +120,20 @@ $(document).ready(function(){
 	$('#n_add_software_link').button( 'option', 'icons', {primary:'ui-icon-circle-plus'} );
 
 	/* CSS Additions other then initial form themeing */
-	$('#computer_submit').css('color', '#0C0');
-	$('#computer_submit').css('border', '1px solid #0A0');
+	$('#computer_submit').css('color', '#0A0');
+	$('#computer_submit').css('border', '1px solid #090');
 
 	/* Binds and Lives */
+	$("input[name='computer[loc]']").live("change", function () {
+		loc = $("input[name='computer[loc]']:checked").val();
+		$('.loading-dpts').show('pulsate', {}, 500);
+		$("select[id='computer_dpt']").load('/department/get_location_departments/' + loc, function (){
+			//$(this).effect("highlight");
+			//$('.loading-dpts').hide('fade');
+		});
+
+	});
+
 	$('#new_computer').live('ajax:success', function(data, textStatus, jqXHR){
 		$("#new_comp_finishing").html("Saved Successfully: " + textStatus);
 		$("#new_comp_finishing").dialog({
@@ -200,9 +173,14 @@ $(document).ready(function(){
 		});
 	});
 
-	$('.close_software').live("click", function() {
-		$(this).parent().parent().remove();
+	$('#new_computer_container').show('fade',{}, 550, function(){
+		$('#new_computer_accordion').accordion({fillSpace: true});
+		popIt();
+		var h = $('.pop').css('height') - 100;
+		$('#new_computer_accordion >div').css('height', h);
+		$('#new_computer_accordion >h3').unbind("click");
 	});
+		
 });
 
 </script>

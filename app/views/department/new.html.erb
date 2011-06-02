@@ -1,2 +1,66 @@
-<h1>Department#new</h1>
-<p>Find me in app/views/department/new.html.erb</p>
+<%= form_for(@dpt, :remote => true, :url => '/department', :html => { :'data-type' => 'html' }) do |f| %>
+<div class="pop" id="new_dpt_container" style="display: none;">
+	Name:&nbsp;<%= f.text_field :name, {class: "validate[required]", id: "newdpt-dpt_name", size: 10} %>
+	&nbsp;
+	Manager:&nbsp;<%= f.text_field :manager, {class: "validate[required]", id: "newdpt-dpt_manager", size: 10} %>
+	<br /><br />
+	<div class='newdpt-radios'>
+		Location:
+			<%= f.radio_button :location, "Orlando", {id: "newdpt-dpt_location_orlando"} %><label for="newdpt-dpt_location_orlando">Orlando</label>
+			<%= f.radio_button :location, "Hawaii", {id: "newdpt-dpt_location_hawaii"} %><label for="newdpt-dpt_location_hawaii">Hawaii</label>
+	</div><br />
+	<%= f.submit "Submit" %>
+</div>
+<% end %>
+<div id="newdpt-finishing"></div>
+<script type="text/javascript" src="/javascripts/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	$('#new_department').validationEngine('attach');
+	$('div[class|=newdpt]').buttonset();
+
+	popIt();
+	theme_forms("newdpt");
+
+	// Color submit button
+	$('#department_submit').css('color', '#0A0');
+	$('#department_submit').css('border', '1px solid #090');
+
+	$('#new_department :submit').button();
+	$('#new_dpt_container').show('fade',{}, 850);
+
+	/* Binds and Lives */
+	$('#new_department').live('ajax:success', function(data, textStatus, jqXHR){
+		$("#newdpt-finishing").html("Saved Successfully: " + textStatus);
+		$("#newdpt-finishing").dialog({
+			autoOpen: true,
+			show: "blind",
+			hide: "fade",
+			modal: true,
+			title: "Luke Filesaver",
+			buttons: { "Ok": function() { 
+				var selected = $('#blackmamba').tabs('option', 'selected');
+				$(this).remove(); 
+				$('#blackmamba').tabs('select', 0);
+				$('#blackmamba').tabs('remove', selected );
+				} }
+		});
+	});
+	$('#new_department').live("ajax:error", function(xhr, textStatus, errorThrown){
+		$("#newdpt-finishing").html("Error: " + textStatus.status +
+			"<br /><br />" + textStatus.responseText);
+		$("#newdpt-finishing").dialog({
+			autoOpen: true,
+			show: "blind",
+			hide: "fade",
+			modal: true,
+			title: "Luke Filesaver",
+			width: "500px",
+			buttons: { "Ok": function() { 
+						$(this).dialog("destroy"); 
+					} }
+		});
+	});
+});
+</script>

@@ -11,7 +11,7 @@ class ComputerController < ApplicationController
 	end
 
 	def create
-		
+		@string2 = ""
 		@computer = Computer.new(params[:computer])
 
 		@computer.softwares.build(params[:software])
@@ -43,6 +43,11 @@ class ComputerController < ApplicationController
 	
 	def show
 		@computer = Computer.where(:name => params[:id]).first
+		if @computer[:software].nil? then
+			@software = nil	
+		else
+			@software = @computer[:software]
+		end
 	end
 
 	def edit

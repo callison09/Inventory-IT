@@ -23,15 +23,21 @@ class RootController < ApplicationController
 
   def welcome #Home Tab
     @number_of_computers = Computer.all.count
-    render :partial => "home", :locals => {:number_of_computers => @number_of_computers}
+    @number_of_departments = Department.all.count
+    render :partial => "home", :locals => {
+        :number_of_computers => @number_of_computers,
+        :number_of_departments => @number_of_departments
+      }
   end
 
   def changes #changes tab
     @new_computers = Computer.sort(:created_at.desc).limit(10)
     @recent_changed_computers = Computer.sort(:updated_at.desc).limit(10)
+    @new_departments = Department.sort(:created_at.desc).limit(10)
     render :partial => "changes", :locals => {
           :new_computers => @new_computers,
-          :recent_changed_computers => @recent_changed_computers
+          :recent_changed_computers => @recent_changed_computers,
+          :new_departments => @new_departments
         }
   end
 end

@@ -1,39 +1,40 @@
 <%= form_for(@computer, :remote => true) do |f| %>
-<div class="pop">
-		<div id="computer_accordion">
+<div class="pop" id="edit_<%= params[:id] %>_computer_container" style="display: none;">
+		<div id="computer_<%= params[:id] %>_accordion">
 			<h3><a href="#">General</a></h3>
 			<div>
 				<p>
 					<div>
-						Name:<br /><%= f.text_field :name, {class: "validate[required]"} %>
-						<br />
-						SN:<br /><%= f.text_field :sn, {class: "validate[required]"} %>
+						Name:&nbsp;<%= f.text_field :name, {class: "validate[required]", id: "edit_#{params[:id]}-computer_name", size: 10} %>
+						&nbsp;
+						SN:&nbsp;<%= f.text_field :sn, {class: "validate[required]", id: "edit_#{params[:id]}-computer_sn", size: 12} %>
+						&nbsp;
+						Department: <%= f.select :dpt, ['IT', 'ACCTG'], {class: "validate[required]", id: "edit_#{params[:id]}-computer-dpt"} %>
 						<br /><br />
-						<div id='editcomputer-radios'>
+						<div class='editcomputer_<%= params[:id] %>-radios'>
 							Status:
-								<%= f.radio_button :status, "active" %><label for="computer_status_active">Active</label>
-								<%= f.radio_button :status, "inactive" %><label for="computer_status_inactive">Inactive</label>
+								<%= f.radio_button :status, "active", {id: "edit_#{params[:id]}-computer_status_active"} %><label for="edit_<%= params[:id] %>-computer_status_active">Active</label>
+								<%= f.radio_button :status, "inactive", {id: "edit_#{params[:id]}-computer_status_inactive"} %><label for="edit_<%= params[:id] %>-computer_status_inactive">Inactive</label>
 						</div><br />
-						<div id='editcomputer-radios'>
+						<div class='editcomputer_<%= params[:id] %>-radios'>
 							Machine Type:
-								<%= f.radio_button :mtype, "laptop" %><label for="computer_mtype_laptop">Laptop</label>
-								<%= f.radio_button :mtype, "desktop" %><label for="computer_mtype_desktop">Desktop</label>
-								<%= f.radio_button :mtype, "server" %><label for="computer_mtype_server">Server</label>
+								<%= f.radio_button :mtype, "laptop", {id: "edit_#{params[:id]}-computer_mtype_laptop"} %><label for="edit_<%= params[:id] %>-computer_mtype_laptop">Laptop</label>
+								<%= f.radio_button :mtype, "desktop", {id: "edit_#{params[:id]}-computer_mtype_desktop"} %><label for="edit_<%= params[:id] %>-computer_mtype_desktop">Desktop</label>
+								<%= f.radio_button :mtype, "server", {id: "edit_#{params[:id]}-computer_mtype_server"} %><label for="edit_<%= params[:id] %>-computer_mtype_server">Server</label>
 							</div>
 							<br />
-						<div id='editcomputer-radios'>
+						<div class='editcomputer_<%= params[:id] %>-radios'>
 							Location:
-								<%= f.radio_button :loc, "orlando" %><label for="computer_loc_orlando">Orlando</label>
-								<%= f.radio_button :loc, "homes" %><label for="computer_loc_homes">Homes</label>
-								<%= f.radio_button :loc, "miami" %><label for="computer_loc_miami">Miami</label>
-								<%= f.radio_button :loc, "hawaii" %><label for="computer_loc_hawaii">Hawaii</label>
-								<%= f.radio_button :loc, "vegas" %><label for="computer_loc_vegas">Las Vegas</label>
-								<%= f.radio_button :loc, "newyork" %><label for="computer_loc_newyork">New York</label>
+								<%= f.radio_button :loc, "orlando", {id: "edit_#{params[:id]}-computer_loc_orlando"} %><label for="edit_<%= params[:id] %>-computer_loc_orlando">Orlando</label>
+								<%= f.radio_button :loc, "homes", {id: "edit_#{params[:id]}-computer_loc_homes"} %><label for="edit_<%= params[:id] %>-computer_loc_homes">Homes</label>
+								<%= f.radio_button :loc, "miami", {id: "edit_#{params[:id]}-computer_loc_miami"} %><label for="edit_<%= params[:id] %>-computer_loc_miami">Miami</label>
+								<%= f.radio_button :loc, "hawaii", {id: "edit_#{params[:id]}-computer_loc_hawaii"} %><label for="edit_<%= params[:id] %>-computer_loc_hawaii">Hawaii</label>
+								<%= f.radio_button :loc, "vegas", {id: "edit_#{params[:id]}-computer_loc_vegas"} %><label for="edit_<%= params[:id] %>-computer_loc_vegas">Las Vegas</label>
+								<%= f.radio_button :loc, "newyork", {id: "edit_#{params[:id]}-computer_loc_newyork"} %><label for="edit_<%= params[:id] %>-computer_loc_newyork">New York</label>
 						</div>
 					</div>
 
 					<br /><br />
-					<button type="button" class="soft next">Add Software</button>
 				</p>
 			</div>
 			<h3><a href="#">Software</a></h3>
@@ -47,98 +48,54 @@
 						<div style="padding: 10px;" class="ui-widget-content">
 						<%= fields_for 'computer[software]', @software, :index => nil do |s| %>
 							Software Name: <br />
-							<%= text_field_tag "computer[software][][name]", soft['name'] %><br />
+							<%= text_field_tag "computer[software][][name]", soft['name'], {id: "edit_#{params[:id]}-#{soft['name']}_computer_software__name"} %><br />
 							Developer:<br />
-							<%= text_field_tag "computer[software][][dev]", soft['dev'] %><br />
+							<%= text_field_tag "computer[software][][dev]", soft['dev'], {id: "edit_#{params[:id]}-#{soft['dev']}_computer_software__name"} %><br />
 							Serial Number:<br />
-							<%= text_field_tag "computer[software][][sn]", soft['sn'] %><br />
+							<%= text_field_tag "computer[software][][sn]", soft['sn'], {id: "edit_#{params[:id]}-#{soft['sn']}_computer_software__name"} %><br />
 						<% end %>
 						</div>
 						</div>
 					<% end %>
 				<% end %>
-				<div id="softwareFields">
+				<div id="softwareFields_<%= params[:id] %>">
 
 				</div>
-				<button type="button" id="add_software_link">Add Software</button>
-				<button type="button" class="gen prev">Edit General</button>
-				<button type="button" class="finalize last">Finalize</button>
+				<button type="button" id="<%= params[:id] %>_add_software_link">Add Software</button>
 				</div>
 				</p>
 			</div>
 			<h3><a href="#">Finalize</a></h3>
 			<div>
 				<p>
-					<button type="button" class="soft prev">Edit Software</button>
-					<button type="button" class="gen prev">Edit General</button>
-					<%= f.submit "Submit" %>
+					<%= f.submit "Submit", {id: "edit_#{params[:id]}-computer_software_submit"} %>
 				</p>
 			</div>
 		</div>
 	</div>
 <% end %>
-<div id="finishing_edit"></div>
+<div id="edit_<%= params[:id] %>-finishing"></div>
 
 <script type="text/javascript" src="/javascripts/jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.validationEngine-en.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
-	popIt();
-	$('#edit_computer_<%= params[:id] %> :input[type=text]').addClass('ui-corner-all ui-state-default');
-	$('#edit_computer_<%= params[:id] %> :input[type=text]').hover(
-		function (){ 
-			$(this).toggleClass('ui-state-hover'); 
-		});
-	$('#edit_computer_<%= params[:id] %> :input[type=text]').focus(function(){
-		$(this).toggleClass('ui-state-active');
-	});
-	$('#edit_computer_<%= params[:id] %> :input[type=text]').blur(function(){
-		$(this).toggleClass('ui-state-active');
-	});
-
-	$('#edit_computer_<%= params[:id] %> div[id|="editcomputer"]').buttonset();
+	theme_forms("edit_<%= params[:id] %>");
+	//theme_forms("edit_<%= params[:id] %>");
+	$('div[class|="editcomputer_<%= params[:id] %>"]').buttonset();
 
 	$('#edit_computer_<%= params[:id] %>').validationEngine('attach');
 
-	$('#computer_accordion').accordion({fillSpace: true});
-	var h = $('.pop').css('height') - 100;
-	$('#computer_accordion >div').css('height', h);
+	// Buttonize
+	$(':button, :submit').button();
+	$('#<%= params[:id] %>_add_software_link').button( 'option', 'icons', {primary:'ui-icon-circle-plus'} );
 
-	$('#computer_accordion .gen').each(function (index, elm) {
-	    $(elm).click(function() {
-	        $('#computer_accordion').accordion('activate', 0);
-	    });
-	});
-
-	$('#computer_accordion .soft').each(function (index, elm) {
-	    $(elm).click(function() {
-	    	if ($('#new_computer').validationEngine('validate'))
-	    	{
-	    		$('#computer_accordion').accordion('activate', 1);
-	    	}
-	    });
-	});
-
-	$('#computer_accordion .finalize').each(function (index, elm) {
-	    $(elm).click(function() {
-	    	if ($('#new_computer').validationEngine('validate'))
-	    	{
-	    		$('.edit #computer_accordion').accordion('activate', 2);
-	    	}
-	    });
-	});
-
-	$('#edit_computer_<%= params[:id] %> :submit').button();
-	$(':button').button();
-	$('.last').button( 'option', 'icons', {secondary:'ui-icon-arrowstop-1-e'} );
-	$('.next').button( 'option', 'icons', {secondary:'ui-icon-arrow-1-e'} );
-	$('.prev').button( 'option', 'icons', {primary:'ui-icon-arrow-1-w'} );
-	$('#computer_submit').css('color', '#0C0');
-	$('#computer_submit').css('border', '1px solid #0A0');
+	$('#edit_<%= params[:id] %>-computer_software_submit').css('color', '#0C0');
+	$('#edit_<%= params[:id] %>-computer_software_submit').css('border', '1px solid #0A0');
 	$('#edit_computer_<%= params[:id] %>').bind('ajax:success', function(){
-  		$("#finishing_edit").html("Success!");
-  		$("#finishing_edit").dialog({
+  		$("#edit_<%= params[:id] %>-finishing").html("Success!");
+  		$("#edit_<%= params[:id] %>-finishing").dialog({
 			autoOpen: true,
 			show: "blind",
 			hide: "fade",
@@ -153,17 +110,18 @@ $(document).ready(function(){
 		});
 	});
 
-	$("#add_software_link").bind("click", function(){
+	$("#<%= params[:id] %>_add_software_link").bind("click", function(){
 		$.get('/computer/add_software', function(data) {
-		  $('#softwareFields').append(data);
-		  style_form();
+		  $('#softwareFields_<%= params[:id] %>').append(data);
 		});
 	});
 
-	$('.close_software').live("click", function() {
-		$(this).parent().parent().remove();
+	$("#edit_<%= params[:id] %>_computer_container").show("fade", {}, 550, function() {
+		$('#computer_<%= params[:id] %>_accordion').accordion({fillSpace: true});
+		popIt();
+		var h = $('.pop').css('height') - 100;
+		$('#computer_<%= params[:id] %>_accordion >div').css('height', h);
 	});
 });
 
 </script>
-

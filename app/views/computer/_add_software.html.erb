@@ -4,12 +4,13 @@
 	<div style="padding: 10px;" class="ui-widget-content">
 	<%= fields_for 'computer[software]', @software, :index => nil do |s| %>
 		Software Name: <br />
-		<%= s.text_field :name , {id: 'addsoftware-' + @time} %><br />
+		<%= s.text_field :name, {id: 'addsoftware-computer_software__name-' + @time} %><br />
 		Developer:<br />
-		<%= s.text_field :dev %><br />
+		<%= s.text_field :dev, {id: 'addsoftware-computer_software__dev-' + @time} %><br />
 		Serial Number:<br />
-		<%= s.text_field :sn %><br />
+		<%= s.text_field :sn, {id: 'addsoftware-computer_software__sn-' + @time} %><br />
 	<% end %>
 	</div>
 	</div>
 </span>
+<script type="text/javascript">theme_forms("addsoftware");</script>

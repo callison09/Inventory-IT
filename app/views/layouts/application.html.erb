@@ -31,19 +31,7 @@
 	<%= csrf_meta_tag %>
 	<script type="text/javascript">
 
-	function popIt () { //Keep the tab panels the same size as the window
-		var wh = parseInt($(window).height());
-		$(".pop").css("height", wh - 330);
-	}
 
-	function reloadHome (){ //Load the home page content into the accordion
-		$('#home_tab_refresh').css('visibility', 'visible');
-		$("#home_tab_refresh").effect("pulsate", { times: 7 }, 500);
-		setTimeout("$('#home').load('/root/welcome')", 1500);
-		setTimeout("$('#changes').load('/root/changes')", 2500);
-		setTimeout("$('#home_tab_refresh').css('visibility', 'hidden')", 3250);
-		
-	}
 	
 	$(document).ready(function() {
 	/* Tab declaration and initialzation */
@@ -62,7 +50,7 @@
 			},
 		//When tab closes, reload the home tab accordion content
 		remove: function(event, ui){
-				reloadHome();
+				//reloadHome();
 			},
 		cache: true,
 		spinner: "Wait a sec..."
@@ -70,8 +58,8 @@
 
 	//Operate the close button on tabs
 	$( "#blackmamba span.ui-icon-close" ).live( "click", function() {
-		var index = $( "li", "#blackmamba" ).index( $( this ).parent() );
-		$("#blackmamba").tabs( "remove", index );
+		var index = $( "li", "#blackmamba" ).index($(this).parent());
+		$("#blackmamba").tabs("remove", index);
 		$("#blackmamba").tabs("select", 0);
 	});
 
@@ -134,7 +122,7 @@
 						<a href="#" onclick="addtab('/computer/new', 'New Computer');">Computer</a>
 					</li>
 					<li class="current">
-						<a href="#ab" onclick="addtab('/department/new', 'New Department');">Department</a>
+						<a href="#" onclick="addtab('/department/new', 'New Department');">Department</a>
 					</li>
 					<li>
 						<a href="#">Employee</a>
@@ -267,7 +255,7 @@
 	<span id="tag" style="cursor: pointer;">Change Theme<span class="ui-icon ui-icon-triangle-1-e" style="float: left; margin-top: 3px;"></span></span>
 
 	<div id="changeform">
-		<div class="ui-widget" style="padding: 0.5em">
+		<div class="ui-widget" style="padding: 0.5em; float: left;">
 			<span class="ui-state-error ui-corner-all" style="padding: 0.1em;">Changing theme's will reload the page and destroy open tabs<span class="er-ico ui-icon ui-icon-alert" style="float: left; margin-top: 3px;"></span></span><br /><br />
 		</div>
 		<%= form_for(:theme1, {url: '/root/theme'}) do |t| %>
