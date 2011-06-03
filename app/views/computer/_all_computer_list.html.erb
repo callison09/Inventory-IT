@@ -1,0 +1,13 @@
+{
+"sEcho": <%=h @sEcho %>,
+"iTotalRecords": <%= @iTotalRecords %>,
+"iTotalDisplayRecords": <%= @iTotalDisplayRecords %>,
+"aaData" : [ 
+<% @computer.each do |comp| %>
+   [   "<%=h comp.name %>",
+       "<%=h comp.sn %>", 
+   <%= "]," unless comp == @computer.last %>
+<% end %>
+   ]
+]
+}

@@ -10,15 +10,15 @@ class DepartmentController < ApplicationController
   end
 
   def create
-    @string2 = ""
-    @dpt = Department.new(params[:department])
+    @string2 = "" #Initialize String
+    @dpt = Department.new(params[:department]) #build new department from incoming parameters
 
     if @dpt.save
       @string2 = @dpt.name + " - " + @dpt.location
       @status = 200
     else
-      @dpt.errors.full_messages.each {|x| @string2 << "<br /><span style='color: red;'>Error:&nbsp;</span><strong>#{x}</strong>" }
-      @status = 500
+      @dpt.errors.full_messages.each {|x| @string2 << "<br /><span style='color: red;'>Error:&nbsp;</span><strong>#{x}</strong>" } #Add each error message to the string
+      @status = 500 #Set status
     end
     
     respond_to {|f|
@@ -36,13 +36,13 @@ class DepartmentController < ApplicationController
   end
 
   def get_location_departments
-    departments = "<option></option>"
-    x = params[:location]
-    tmp = Department.where(:location => "#{x}")
-    for t in tmp
+    departments = "<option></option>" #Build first string w/ blank option first
+    x = params[:location] #Fetch incoming parameter
+    tmp = Department.where(:location => "#{x}") #Find all departments with location matching incoming parameter
+    for t in tmp #Create options based on data retrieval
       departments << "<option>" + t.name + "</option>"
     end
-    render :text => departments
+    render :text => departments #Output options string for select box
   end
 
 

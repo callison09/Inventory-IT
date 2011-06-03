@@ -1,0 +1,77 @@
+<div class="pop">
+<table id="computer_list_table" class="display" cellspacing="0" cellpadding="0" border="0">
+<thead>
+	<tr>
+		<th>Name</th>
+		<th>SN</th>
+		<th>Location</th>
+		<th>Department</th>
+		<th>Type</th>
+		<th>Status</th>
+	</tr>
+</thead>
+<tfoot>
+	<tr>
+		<th>Name</th>
+		<th>SN</th>
+		<th>Location</th>
+		<th>Department</th>
+		<th>Type</th>
+		<th>Status</th>
+	</tr>
+</tfoot>
+<tbody>
+<% for c in @computers %>
+	<tr>
+		<td title="<%= c.name_change.inspect %>"><%= c.name %></td>
+		<td title="sn"><%= c.sn %></td>
+		<td title="loc"><%= c.loc %></td>
+		<td title="dpt"><%= c.dpt %></td>
+		<td title="mtype"><%= c.mtype %></td>
+		<td title="status"><%= c.status %></td>
+	</tr>
+<% end %>
+</tbody>
+</table>
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	var oTable;
+	oTable = $("#computer_list_table").dataTable({
+		"bJQueryUI": true,
+		"bProcessing": true,
+		"sPaginationType": "full_numbers"
+	});
+
+	$("#computer_list_table tbody").click(function(event) {
+		$(oTable.fnSettings().aoData).each(function (){
+			$(this.nTr).removeClass('row_selected');
+		});
+		$(event.target.parentNode).addClass('row_selected');
+	});
+
+	$("#computer_list_table td[title]").live("hover", function () {
+		$("#computer_list_table td[title]").tooltip({
+			"delay": 750,
+			"predelay": 1250
+		});
+	});
+
+	// Set style for all inputs
+	$(".dataTables_filter>input[type='text'], .dataTables_length>select").addClass('ui-corner-all ui-state-default');
+	$(".dataTables_filter>input[type='text'], .dataTables_length>select").hover(
+		function (){ 
+			$(this).toggleClass('ui-state-hover'); 
+		});
+	$(".dataTables_filter>input[type='text'], .dataTables_length>select").focus(function(){
+		$(this).toggleClass('ui-state-active');
+	});
+	$(".dataTables_filter>input[type='text'], .dataTables_length>select").blur(function(){
+		$(this).toggleClass('ui-state-active');
+	});
+});
+
+</script>

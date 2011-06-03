@@ -68,4 +68,9 @@ class ComputerController < ApplicationController
 		@software = Software.new
 		render :partial => 'add_software', :locals => {:software => @software}
 	end
+
+	def list
+		@computers = Computer.all
+	end
+
 end

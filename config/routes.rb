@@ -8,7 +8,10 @@ Inventory30::Application.routes.draw do
   get "root/find"
   get "root/welcome"
   get "root/changes"
+  #Addable tabs
   get "computer/add_software"
+  #Lists, etc.
+  get "computer/list"
 
   match "department/get_location_departments/:location" => 'department#get_location_departments'
 

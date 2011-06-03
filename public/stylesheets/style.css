@@ -57,3 +57,14 @@ input {
 #topnav_container .topnav li a:hover{
 	color: #FFF;
 }
+
+/*---Tooltips---*/
+.tooltip {
+	display:none;
+	background:transparent url(/images/tooltip/white_arrow.png);
+	font-size:16px;
+	height:70px;
+	width:160px;
+	padding:25px;
+	color:#000;	
+}
