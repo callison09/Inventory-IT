@@ -279,7 +279,7 @@ table.display tr.even.gradeU {
 
 
 tr.odd {
-	background-color: #FFE9DA;
+	background-color: #DEF;
 }
 
 tr.even {
@@ -390,7 +390,7 @@ tr.odd td.sorting_3 {
 }
 
 tr.even td.sorting_1 {
-	background-color: #E9FFE9;
+	background-color: #FFF;
 }
 
 tr.even td.sorting_2 {
@@ -525,7 +525,7 @@ tr.even.gradeU td.sorting_3 {
 }
 
 #computer_list_table tr.even:hover td.sorting_1 {
-	background-color: #DDFF75;
+	background-color: #ECFFB3;
 }
 
 #computer_list_table tr.even:hover td.sorting_2 {
@@ -541,7 +541,7 @@ tr.even.gradeU td.sorting_3 {
 }
 
 #computer_list_table tr.odd:hover td.sorting_1 {
-	background-color: #D6FF5C;
+	background-color: #ECFFB3;
 }
 
 #computer_list_table tr.odd:hover td.sorting_2 {
